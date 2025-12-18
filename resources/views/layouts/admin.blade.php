@@ -12,10 +12,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet"                 href="{{ asset('font/fonts.css') }}">
-    <link rel="stylesheet"                 href="{{ asset('icon/style.css') }}">
-    <link rel="shortcut icon"              href="{{ asset('images/favicon.ico') }}">
-  <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('font/fonts.css') }}">
+    <link rel="stylesheet" href="{{ asset('icon/style.css') }}">
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -160,13 +160,14 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                <form method="POST" action="{{route('logout')}}" id="logout-form">
-                                @csrf
-                                    <a href="{{route('logout')}}" class="" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <div class="icon"><i class="icon-settings"></i></div>
-                                       
-                                        <div class="text">Logout</div>
-                                    </a>
+                                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                                        @csrf
+                                        <a href="{{ route('logout') }}" class=""
+                                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                            <div class="icon"><i class="icon-settings"></i></div>
+
+                                            <div class="text">Logout</div>
+                                        </a>
                                 </li>
                             </ul>
                         </div>
@@ -441,12 +442,17 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="login.html" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-log-out"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Log out</div>
-                                                </a>
+                                                <form method="POST" action="{{ route('logout') }}"
+                                                    id="logout-form-dropdown">
+                                                    @csrf
+                                                    <a href="{{ route('logout') }}" class="user-item"
+                                                        onclick="event.preventDefault();document.getElementById('logout-form-dropdown').submit();">
+                                                        <div class="icon">
+                                                            <i class="icon-log-out"></i>
+                                                        </div>
+                                                        <div class="body-title-2">Log out</div>
+                                                    </a>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>
@@ -456,8 +462,8 @@
                         </div>
                     </div>
                     <div class="main-content">
-@yield('content')
-                       
+                        @yield('content')
+
 
 
                         <div class="bottom-page">

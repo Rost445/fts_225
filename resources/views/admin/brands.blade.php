@@ -6,7 +6,7 @@
                 <h3>{{ $header_title }}</h3>
                 <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                     <li>
-                        <a href="index.html">
+                        <a href="{{ route('admin.index') }}">
                             <div class="text-tiny">Адмін-панель</div>
                         </a>
                     </li>
@@ -22,27 +22,21 @@
             <div class="wg-box">
                 <div class="flex items-center justify-between gap10 flex-wrap">
                     <div class="wg-filter flex-grow">
-                        {{--   <form class="form-search">
-                            <fieldset class="name">
-                                <input type="text" placeholder="Search here..." class="" name="name"
-                                    tabindex="2" value="" aria-required="true" required="">
-                            </fieldset>
-                            <div class="button-submit">
-                                <button class="" type="submit"><i class="icon-search"></i></button>
-                            </div>
-                        </form> --}}
+                       
                     </div>
                     <a class="tf-button style-1 w208" href="{{ route('admin.brand.add') }}"><i class="icon-plus"></i>Додати
                         бренд</a>
                 </div>
                 <div class="wg-table table-all-user">
                     <div class="table-responsive">
-                        @if (Session::has('status'))
-                            <p class="alert alert-success text-center mb-3">
-                                {{ Session::get('status') }}
-                            </p>
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show fs-3" role="alert">
+                                <div class="p-3">{{ session('success') }}</div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
                         @endif
-                        <table class="table table-striped table-bordered">
+                     
+                        <table class="table table-bordered mb-0" style="border-bottom-color: ;">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -94,8 +88,4 @@
             </div>
         </div>
     </div>
-    <div class="bottom-page">
-        <div class="body-text">Copyright © 2024 SurfsideMedia</div>
-    </div>
 @endsection
-

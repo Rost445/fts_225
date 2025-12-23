@@ -29,7 +29,6 @@
     <div id="wrapper">
         <div id="page" class="">
             <div class="layout-wrap">
-
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{ route('admin.index') }}" id="site-logo-inner">
@@ -384,8 +383,6 @@
                                 </div>
 
 
-
-
                                 <div class="popup-wrap user type-header">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -469,7 +466,7 @@
             </div>
         </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>

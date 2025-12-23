@@ -68,7 +68,7 @@ class AdminController extends Controller
     }
 
     $img = Image::read($image)
-        ->cover(124, 124)
+        ->cover(100, 100)
         ->save($destinationPath . '/' . $imageName);
 }
 

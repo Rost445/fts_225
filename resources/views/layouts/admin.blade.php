@@ -75,17 +75,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
-                                        <div class="text">Brand</div>
+                                        <div class="text">Бренди</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="add-brand.html" class="">
-                                                <div class="text">New Brand</div>
+                                            <a href="{{ route('admin.brand.add') }}" class="">
+                                                <div class="text">Додати бренд</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.brands') }}" class="">
-                                                <div class="text">Brands</div>
+                                                <div class="text">Бренди</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -469,6 +469,7 @@
             </div>
         </div>
     </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>

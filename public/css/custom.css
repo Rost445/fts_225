@@ -125,7 +125,7 @@ body {
 
 .table-bordered>:not(caption)>*>* {
     border-width: inherit;
-    line-height: 32px;
+    line-height: 18px;
     font-size: 14px;
     border: 1px solid #e1e1e1;
     vertical-align: middle;

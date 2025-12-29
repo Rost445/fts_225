@@ -225,13 +225,24 @@ class AdminController extends Controller
       ->with('success', 'Категорію успішно видалено.');
   }
 
-  public function peoducts()
+  public function products()
   {
     $header_title = "Продукти";
     $products = Product::orderBy('created_at', 'DESC')->paginate(10);
 
     return view('admin.products', compact('header_title', 'products'));
   }
+
+  public function add_product()
+  {
+    $header_title = "Додати продукт";
+    $categories = Category::select('id', 'name')->orderBy ('name')->get( );
+    $brands = Brand::select('id', 'name')->orderBy ('name')->get( );
+
+    return view('admin.add_product', compact('header_title', 'categories', 'brands'));
+  }
+
+
 
 
 }

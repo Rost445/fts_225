@@ -135,4 +135,46 @@ class AdminController extends Controller
     $header_title = "Додати категорію";
     return view('admin.add_category', compact('header_title'));
   }
+
+
+  public function GenerateCategoryThumbnailsImage($image, $imageName)
+  {
+    $destinationPath = public_path('/uploads/categories');
+
+    if (!file_exists($destinationPath)) {
+      mkdir($destinationPath, 0755, true);
+    }
+
+    $img = Image::read($image)
+      ->cover(300, 100)
+      ->save($destinationPath . '/' . $imageName);
+  }
+
+  public function store_category(Request $request)
+  {
+    $request->validate([
+      'name'  => 'required|string|max:255',
+      'slug'  => 'required|string|max:255|unique:categories,slug',
+    ]);
+
+    $category = new Category();
+    $category->name = $request->name;
+    $category->slug = Str::slug($request->name);
+
+     if ($request->hasFile('image')) {
+      $image = $request->file('image');
+      $file_extension = $image->extension();
+      $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+
+      $this->GenerateCategoryThumbnailsImage($image, $file_name);
+      $category->image = $file_name;
+    }
+
+    $category->save();
+
+    return redirect()->route('admin.categories')
+      ->with('success', 'Категорію успішно додано.');
+  }
+
+
 }

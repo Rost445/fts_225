@@ -14,7 +14,7 @@
                         <i class="icon-chevron-right"></i>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{{ route('admin.brands') }}">
                             <div class="text-tiny">Бренди</div>
                         </a>
                     </li>
@@ -54,12 +54,12 @@
                         </div>
                         <div class="upload-image flex-grow">
 
-                            @if($brand->image)
-                            <div class="item" id="imgpreview">
-                                <img src="{{ asset('uploads/brands') }}/{{ $brand->image }}" class="effect8" alt="">
-                            </div>
+                            @if ($brand->image)
+                                <div class="item" id="imgpreview">
+                                    <img src="{{ asset('uploads/brands') }}/{{ $brand->image }}" class="effect8"
+                                        alt="">
+                                </div>
                             @else
-                           
                             @endif
                             <div id="upload-file" class="item up-load">
                                 <label class="uploadfile" for="myFile">
@@ -88,30 +88,5 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(function () {
-
-        $('#imgpreview').hide();
-
-        $('#myFile').on('change', function() {
-            const [file] = this.files;
-            if (file) {
-                $('#imgpreview img').attr("src", URL.createObjectURL(file));
-                $('#imgpreview').show();
-            }
-        });
-
-        $("input[name='name']").on('change keyup', function() {
-            $("input[name='slug']").val(StringToSlug($(this).val()));
-        });
-
-    });
-
-    function StringToSlug(text) {
-        return text.toLowerCase()
-            .replace(/[^\w ]+/g, "")
-            .replace(/ +/g, "-");
-    }
-</script>
+   
 @endpush
-

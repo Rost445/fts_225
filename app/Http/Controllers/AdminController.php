@@ -71,7 +71,7 @@ class AdminController extends Controller
   {
     $request->validate([
       'name'  => 'required|string|max:255',
-      'slug'  => 'required|string|max:255|unique:brands,slug',
+      'slug'  => 'required|string|max:255|unique:brands,slug' . ',' . $request->id,
       'image' => 'nullable|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);
 
@@ -89,8 +89,6 @@ class AdminController extends Controller
       $brand->image = $file_name;
     }
 
-
-
     $brand->save();
 
     return redirect()->route('admin.brands')
@@ -106,7 +104,20 @@ class AdminController extends Controller
     }
 
     $img = Image::read($image)
-      ->cover(100, 100)
+      ->cover(300, 100)
       ->save($destinationPath . '/' . $imageName);
+  }
+  public function delete_brand($id)
+  {
+    $brand = Brand::findOrFail($id);
+
+    if (File::exists(public_path('uploads/brands/' . $brand->image))) {
+      File::delete(public_path('uploads/brands/' . $brand->image));
+    }
+
+    $brand->delete();
+
+    return redirect()->route('admin.brands')
+      ->with('success', 'Бренд успішно видалено.');
   }
 }

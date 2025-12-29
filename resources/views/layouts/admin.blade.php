@@ -41,12 +41,12 @@
                     </div>
                     <div class="center">
                         <div class="center-item">
-                            <div class="center-heading">Main Home</div>
+                            <div class="center-heading">Головна</div>
                             <ul class="menu-list">
                                 <li class="menu-item">
                                     <a href="{{ route('admin.index') }}" class="">
                                         <div class="icon"><i class="icon-grid"></i></div>
-                                        <div class="text">Dashboard</div>
+                                        <div class="text">Адмін-панель</div>
                                     </a>
                                 </li>
                             </ul>
@@ -56,17 +56,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-shopping-cart"></i></div>
-                                        <div class="text">Products</div>
+                                        <div class="text">Продукти</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="add-product.html" class="">
-                                                <div class="text">Add Product</div>
+                                            <a href="{{ route('admin.product.add') }}" class="">
+                                                <div class="text">Додати продукт</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="products.html" class="">
-                                                <div class="text">Products</div>
+                                            <a href="{{ route('admin.products') }}" class="">
+                                                <div class="text">Продукти  </div>
                                             </a>
                                         </li>
                                     </ul>

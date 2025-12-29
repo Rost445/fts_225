@@ -10,6 +10,10 @@
         .list-icon-function {
             justify-content: center;
         }
+         .icon-trash-2:before {
+  
+    cursor: pointer !important;
+}
     </style>
 @endpush
 @section('content')
@@ -86,7 +90,7 @@
                                                 <div class="list-icon-function">
                                                     <a href="{{ route('admin.brand.edit', $brand->id) }}">
                                                         <div class="item edit">
-                                                            <i class="icon-edit-3"></i>
+                                                            <i class="icon-edit-3 fs-2"></i>
                                                         </div>
                                                     </a>
                                                    
@@ -97,7 +101,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <div class="item text-danger delete">
-                                                            <i class="icon-trash-2"></i>
+                                                            <i class="icon-trash-2 fs-2"></i>
                                                         </div>
                                                     </form></td>
                                         </tr>

@@ -28,13 +28,15 @@
             </div>
             <!-- new-category -->
             <div class="wg-box">
-                <form class="form-new-product form-style-1" action="{{ route('admin.category.store') }}" method="POST"
+                <form class="form-new-product form-style-1" action="{{ route('admin.category.update') }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+                    <input type="hidden" name="id" value="{{ $category->id }}">
                     <fieldset class="name">
                         <div class="body-title">Назва категорії <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Назва категорії" name="name" tabindex="0"
-                            value="{{ old('name') }}" aria-required="true" required="">
+                            value="{{ $category->name }}" aria-required="true" required="">
                     </fieldset>
                     @error('name')
                         <div class="alert alert-danger text-center mb-3">{{ $message }}</div>
@@ -42,7 +44,7 @@
                     <fieldset class="name">
                         <div class="body-title">Слаг категорії <span class="tf-color-1">*</span></div>
                         <input class="flex-grow" type="text" placeholder="Слаг категорії" name="slug" tabindex="0"
-                            value="{{ old('slug') }}" aria-required="true" required="">
+                            value="{{ $category->slug }}" aria-required="true" required="">
                     </fieldset>
                     @error('slug')
                         <div class="alert alert-danger text-center mb-3">{{ $message }}</div>
@@ -51,9 +53,14 @@
                         <div class="body-title">Завантажити зображення <span class="tf-color-1">*</span>
                         </div>
                         <div class="upload-image flex-grow">
-                            <div class="item" id="imgpreview">
-                                <img src="  " class="effect8" alt="">
-                            </div>
+
+                            @if ($category->image)
+                                <div class="item" id="imgpreview">
+                                    <img src="{{ asset('uploads/categories') }}/{{ $category->image }}" class="effect8"
+                                        alt="">
+                                </div>
+                            @else
+                            @endif
                             <div id="upload-file" class="item up-load">
                                 <label class="uploadfile" for="myFile">
                                     <span class="icon">
@@ -81,30 +88,5 @@
 @endsection
 
 @push('scripts')
-<script>
-    $(function () {
-
-        $('#imgpreview').hide();
-
-        $('#myFile').on('change', function() {
-            const [file] = this.files;
-            if (file) {
-                $('#imgpreview img').attr("src", URL.createObjectURL(file));
-                $('#imgpreview').show();
-            }
-        });
-
-        $("input[name='name']").on('change keyup', function() {
-            $("input[name='slug']").val(StringToSlug($(this).val()));
-        });
-
-    });
-
-    function StringToSlug(text) {
-        return text.toLowerCase()
-            .replace(/[^\w ]+/g, "")
-            .replace(/ +/g, "-");
-    }
-</script>
+   
 @endpush
-

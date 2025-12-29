@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
+use App\Models\Category;
 
 
 
@@ -119,5 +120,19 @@ class AdminController extends Controller
 
     return redirect()->route('admin.brands')
       ->with('success', 'Бренд успішно видалено.');
+  }
+
+  public function categories()
+  {
+    $header_title = "Категорії";
+
+    $categories = Category::orderBy('id', 'DESC')->paginate(10);
+    return view('admin.categories', compact('categories', 'header_title')); 
+  }
+
+  public function add_category()
+  {
+    $header_title = "Додати категорію";
+    return view('admin.add_category', compact('header_title'));
   }
 }

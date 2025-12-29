@@ -92,17 +92,17 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-layers"></i></div>
-                                        <div class="text">Category</div>
+                                        <div class="text">Категорії</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="add-category.html" class="">
-                                                <div class="text">New Category</div>
+                                            <a href="{{ route('admin.category.add') }}" class="">
+                                                <div class="text">Додати категорію</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="categories.html" class="">
-                                                <div class="text">Categories</div>
+                                            <a href="{{ route('admin.categories') }}" class="">
+                                                <div class="text">Категорії</div>
                                             </a>
                                         </li>
                                     </ul>

@@ -51,6 +51,11 @@
                             class="icon-plus"></i>Додати продукт</a>
                 </div>
                 <div class="table table-responsive">
+                    @if (Session::has('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ Session::get('status') }}
+                        </div>
+                    @endif
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -84,10 +89,9 @@
                                             <div class="text-tiny mt-3">{{ $product->slug }}</div>
                                         </div>
                                     </td>
-                                    <td>{{ $product->price }}</td>
                                     <td>{{ $product->regular_price }}</td>
-                                    <td>{{ $product->discount_price }}</td>
-                                    <td>{{ $product->sku }}</td>
+                                    <td>{{ $product->sale_price }}</td>
+                                    <td>{{ $product->SKU }}</td>
                                     <td>{{ $product->category->name }}</td>
                                     <td>{{ $product->brand->name }}</td>
                                     <td>{{ $product->featured == 0 ? 'Ні' : 'Так' }}</td>

@@ -77,7 +77,7 @@ class AdminController extends Controller
       'image' => 'nullable|mimes:jpeg,png,jpg,gif,webp|max:2048',
     ]);
 
-   $brand = Brand::findOrFail($request->id);
+    $brand = Brand::findOrFail($request->id);
     $brand->name = $request->name;
     $brand->slug = Str::slug($request->name);
     if ($request->hasFile('image')) {
@@ -128,7 +128,7 @@ class AdminController extends Controller
     $header_title = "Категорії";
 
     $categories = Category::orderBy('id', 'DESC')->paginate(10);
-    return view('admin.categories', compact('categories', 'header_title')); 
+    return view('admin.categories', compact('categories', 'header_title'));
   }
 
   public function add_category()
@@ -162,7 +162,7 @@ class AdminController extends Controller
     $category->name = $request->name;
     $category->slug = Str::slug($request->name);
 
-     if ($request->hasFile('image')) {
+    if ($request->hasFile('image')) {
       $image = $request->file('image');
       $file_extension = $image->extension();
       $file_name = Carbon::now()->timestamp . '.' . $file_extension;
@@ -191,7 +191,7 @@ class AdminController extends Controller
       'slug'  => 'required|string|max:255|unique:categories,slug' . ',' . $request->id,
     ]);
 
-   $category = Category::findOrFail($request->id);
+    $category = Category::findOrFail($request->id);
     $category->name = $request->name;
     $category->slug = Str::slug($request->name);
     if ($request->hasFile('image')) {
@@ -236,13 +236,139 @@ class AdminController extends Controller
   public function add_product()
   {
     $header_title = "Додати продукт";
-    $categories = Category::select('id', 'name')->orderBy ('name')->get( );
-    $brands = Brand::select('id', 'name')->orderBy ('name')->get( );
+    $categories = Category::select('id', 'name')->orderBy('name')->get();
+    $brands = Brand::select('id', 'name')->orderBy('name')->get();
 
     return view('admin.add_product', compact('header_title', 'categories', 'brands'));
   }
 
+  public function GenerateProductImages($image, $imageName)
+{
+    $mainPath  = public_path('/uploads/products');
+    $thumbPath = public_path('/uploads/products/thumbnails');
 
+    if (!file_exists($mainPath)) {
+        mkdir($mainPath, 0755, true);
+    }
 
+    if (!file_exists($thumbPath)) {
+        mkdir($thumbPath, 0755, true);
+    }
 
+    // Основне зображення
+    Image::read($image)
+        ->cover(540, 680, 'center')
+        ->save($mainPath . '/' . $imageName);
+
+    // Thumbnail
+    Image::read($image)
+        ->cover(124, 124, 'center')
+        ->save($thumbPath . '/' . $imageName);
+}
+  
+public function store_product(Request $request)
+{
+    $request->validate([
+        'name'               => 'required|string|max:255',
+        'slug'               => 'nullable|string|max:255|unique:products,slug',
+        'category_id'        => 'required|exists:categories,id',
+        'brand_id'           => 'nullable|exists:brands,id',
+        'SKU'                => 'required|string|max:100|unique:products,SKU',
+        'quantity'           => 'required|integer|min:0',
+        'stock_status'       => 'required|in:instock,outofstock',
+        'regular_price'      => 'required|numeric|min:0',
+        'sale_price'         => 'nullable|numeric|min:0',
+        'short_description'  => 'required|string',
+        'description'        => 'required|string',
+        'featured'           => 'boolean',
+        'image'              => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        'images.*'           => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+    ]);
+
+   
+        $product = new Product();
+        $product->name              = $request->name;
+        $product->slug              = $request->slug ?? Str::slug($request->name);
+        $product->category_id       = $request->category_id;
+        $product->brand_id          = $request->brand_id;
+        $product->SKU               = $request->SKU;
+        $product->quantity          = $request->quantity;
+        $product->stock_status      = $request->stock_status;
+        $product->regular_price     = $request->regular_price;
+        $product->sale_price        = $request->sale_price;
+        $product->short_description = $request->short_description;
+        $product->description       = $request->description;
+        $product->featured          = $request->featured ?? 0;
+
+        $timestamp = now()->timestamp;
+
+        /** Головне зображення */
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = $timestamp . '.' . $image->getClientOriginalExtension();
+
+            $this->GenerateProductImages($image, $imageName);
+
+            $product->image = $imageName;
+        }
+
+        /** Зберігаємо продукт */
+        $product->save();
+
+        /** Галерея */
+        if ($request->hasFile('images')) {
+
+            $gallery = [];
+            $counter = 1;
+
+            foreach ($request->file('images') as $file) {
+
+                $fileName = $timestamp . '-' . $counter . '.' . $file->getClientOriginalExtension();
+
+                $this->GenerateProductImages($file, $fileName);
+
+                $gallery[] = $fileName;
+                $counter++;
+            }
+
+            $product->images = implode(',', $gallery);
+            $product->save();
+        }
+ 
+
+    return redirect()
+        ->route('admin.products')
+        ->with('success', 'Продукт успішно додано');
+}
+
+  public function GenerateProductThumbnailsImage($image, $imageName)
+  {
+    $destinationPath = public_path('/uploads/products');
+
+    $destinationPath = public_path('/uploads/products/thumbnails');
+
+    if (!file_exists($destinationPath)) {
+      mkdir($destinationPath, 0755, true);
+    }
+
+    $img = Image::read($image);
+    $img->cover(540, 680, "top");
+    $img->resize(124, 124, function ($constraint) {
+      $constraint->aspectRatio();
+    })->save($destinationPath . '/' . $imageName);
+  }
+
+  public function delete_product($id)
+  {
+    $product = Product::findOrFail($id);
+
+    if (File::exists(public_path('uploads/products/' . $product->image))) {
+      File::delete(public_path('uploads/products/' . $product->image));
+    }
+
+    $product->delete();
+
+    return redirect()->route('admin.products')
+      ->with('success', 'Продукт успішно видалено.');
+  }
 }

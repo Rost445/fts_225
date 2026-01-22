@@ -480,6 +480,18 @@ public function update_product(Request $request)
       File::delete(public_path('uploads/products/' . $product->image));
     }
 
+     if (File::exists(public_path('uploads/products/thumbnails' . $product->image))) {
+      File::delete(public_path('uploads/products/thumbnails' . $product->image));
+    }
+
+     if ($product->images) {
+            foreach (explode(',', $product->images) as $oldImage) {
+                File::delete(public_path('uploads/products/' . $oldImage));
+                File::delete(public_path('uploads/products/thumbnails/' . $oldImage));
+            }
+        }
+
+
     $product->delete();
 
     return redirect()->route('admin.products')

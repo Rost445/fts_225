@@ -116,7 +116,9 @@
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="#" method="POST">
+                                            <form action="{{ route('admin.product.delete', ['id' => $product->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
                                                 <div class="item text-danger delete">
                                                     <i class="icon-trash-2"></i>
                                                 </div>
@@ -141,3 +143,28 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function() {
+            $('.delete').on('click', function(e) {
+                e.preventDefault();
+
+                let form = $(this).closest('form');
+
+                swal({
+                    title: "Ви впевнені?",
+                    text: "Цю дію не можна буде скасувати!",
+                    icon: "warning",
+                    buttons: ["Скасувати", "Видалити"],
+                    dangerMode: true,
+                }).then(function(willDelete) {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
+

@@ -308,19 +308,19 @@
         <div class="overflow-hidden">
           <ul class="navigation__list list-unstyled position-relative">
             <li class="navigation__item">
-              <a href="index.html" class="navigation__link">Home</a>
+              <a href="{{ route('home.index') }}" class="navigation__link">Головна</a>
             </li>
             <li class="navigation__item">
-              <a href="shop.html" class="navigation__link">Shop</a>
+              <a href="{{ route('shop.index') }}" class="navigation__link">Магазин</a>
             </li>
             <li class="navigation__item">
-              <a href="cart.html" class="navigation__link">Cart</a>
+              <a href="cart.html" class="navigation__link">Кошик</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
+              <a href="about.html" class="navigation__link">Про компанію</a>
             </li>
             <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="contact.html" class="navigation__link">Контакти</a>
             </li>
           </ul>
         </div>
@@ -332,7 +332,7 @@
             xmlns="http://www.w3.org/2000/svg">
             <use href="#icon_user" />
           </svg>
-          <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
+          <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">Мій обліковий запис</span>
         </div>
 
 
@@ -346,14 +346,7 @@
               </svg>
             </a>
           </li>
-          <li>
-            <a href="#" class="footer__social-link d-block">
-              <svg class="svg-icon svg-icon_twitter" width="14" height="13" viewBox="0 0 14 13"
-                xmlns="http://www.w3.org/2000/svg">
-                <use href="#icon_twitter" />
-              </svg>
-            </a>
-          </li>
+         
           <li>
             <a href="#" class="footer__social-link d-block">
               <svg class="svg-icon svg-icon_instagram" width="14" height="13" viewBox="0 0 14 13"
@@ -400,16 +393,16 @@
               <a href="{{route('home.index')}}" class="navigation__link">Головна</a>
             </li>
             <li class="navigation__item">
-              <a href="shop.html" class="navigation__link">Shop</a>
+              <a href="{{ route('shop.index') }}" class="navigation__link">Магазин</a>
             </li>
             <li class="navigation__item">
-              <a href="cart.html" class="navigation__link">Cart</a>
+              <a href="cart.html" class="navigation__link">Кошик</a>
             </li>
             <li class="navigation__item">
-              <a href="about.html" class="navigation__link">About</a>
+              <a href="about.html" class="navigation__link">Про компанію</a>
             </li>
             <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="contact.html" class="navigation__link">Контакти</a>
             </li>
           </ul>
         </nav>

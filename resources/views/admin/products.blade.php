@@ -48,12 +48,18 @@
                         </form>
                     </div>
                     <a class="tf-button style-1 w208" href="{{ route('admin.product.add') }}"><i
-                            class="icon-plus"></i>Додати продукт</a>
+                            class="icon-plus"></i>{{ $header_title }}</a>
                 </div>
                 <div class="table table-responsive">
-                    @if (Session::has('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ Session::get('status') }}
+                    @if (session('success'))
+                        <div class="alert alert-success mb-20">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger mb-20">
+                            {{ session('error') }}
                         </div>
                     @endif
                     <table class="table table-bordered">
@@ -79,7 +85,8 @@
                                     <td>{{ $product->id }}</td>
                                     <td>
                                         <div class="image">
-                                            <img src="{{ asset('uploads/products/thumbnails')}}/{{ $product->image }}" alt="{{ $product->name }}" class="image">
+                                            <img src="{{ asset('uploads/products/thumbnails') }}/{{ $product->image }}"
+                                                alt="{{ $product->name }}" class="image">
                                         </div>
                                     </td>
                                     <td>
@@ -104,7 +111,7 @@
                                                     <i class="icon-eye"></i>
                                                 </div>
                                             </a>
-                                            <a href="#">
+                                            <a href="{{ route('admin.product.edit', ['id' => $product->id]) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>

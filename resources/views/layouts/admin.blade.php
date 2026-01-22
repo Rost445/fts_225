@@ -453,6 +453,7 @@
                         </div>
                     </div>
                     <div class="main-content">
+                        
                         @yield('content')
 
 

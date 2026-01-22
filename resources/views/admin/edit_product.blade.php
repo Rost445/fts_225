@@ -43,17 +43,19 @@
                     </li>
                 </ul>
             </div>
+            
             <!-- form-add-product -->
-            <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data"
-                action="{{ route('admin.product.store') }}">
+            <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data" action="{{ route('admin.product.update') }}">
                 @csrf
+                @method('PUT')
+                <input type="hidden" name="id" value="{{ $product->id }}">
                 <div class="wg-box">
                     <!--name-->
                     <fieldset class="name">
                         <div class="body-title mb-10">Назва <span class="tf-color-1">*</span>
                         </div>
                         <input class="mb-10" type="text" placeholder="Назва продукту" name="name" tabindex="0"
-                            value="{{ old('name') }}" aria-required="true" required="">
+                            value="{{ $product->name }}" aria-required="true" required="">
                     </fieldset>
                     @error('name')
                         <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -63,7 +65,7 @@
                     <fieldset class="slug">
                         <div class="body-title mb-10">Слаг<span class="tf-color-1">*</span></div>
                         <input class="mb-10" type="text" placeholder="Слаг- назва продукту латиницею" name="slug"
-                            tabindex="0" value="{{ old('slug') }}" aria-required="true" required="">
+                            tabindex="0" value="{{ $product->slug }}" aria-required="true" required="">
                     </fieldset>
                     @error('slug')
                         <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -79,7 +81,9 @@
                                 <select class="" name="category_id">
                                     <option>Виберіть категорію</option>
                                     @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}"
+                                            {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -96,7 +100,9 @@
                                 <select class="" name="brand_id">
                                     <option>Виберіть бренд</option>
                                     @foreach ($brands as $brand)
-                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                        <option value="{{ $brand->id }}"
+                                            {{ $product->brand_id == $brand->id ? 'selected' : '' }}>{{ $brand->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -110,7 +116,7 @@
                     <fieldset class="shortdescription">
                         <div class="body-title mb-10">Короткий опис <span class="tf-color-1">*</span></div>
                         <textarea class="mb-10 " name="short_description" placeholder="Короткий опис" tabindex="0" aria-required="true"
-                            required="">{{ old('short_description') }}</textarea>
+                            required="">{{ $product->short_description }}</textarea>
                     </fieldset>
 
                     @error('short_description')
@@ -122,7 +128,7 @@
                         <div class="body-title mb-10">Опис<span class="tf-color-1">*</span>
                         </div>
                         <textarea class="mb-10 ht-150" name="description" placeholder="Опис продукту" tabindex="0" aria-required="true"
-                            required=""></textarea>
+                            required="">{{ $product->description }}</textarea>
                     </fieldset>
                     @error('description')
                         <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -136,10 +142,12 @@
                         <div class="body-title">Завантажити зображення<span class="tf-color-1">*</span>
                         </div>
                         <div class="upload-image flex-grow">
-                            <div class="item" id="imgpreview" style="display:none">
-                                <img src="../../../localhost_8000/images/upload/upload-1.png" class="effect8"
-                                    alt="">
-                            </div>
+                            @if ($product->image)
+                                <div class="item" id="imgpreview">
+                                    <img src="{{ asset('uploads/products/' . $product->image) }}" class="effect8"
+                                        alt="{{ $product->name }}">
+                                </div>
+                            @endif
                             <div id="upload-file" class="item up-load">
                                 <label class="uploadfile" for="myFile">
                                     <span class="icon">
@@ -158,12 +166,16 @@
                     @enderror
 
                     <fieldset>
-
                         <div class="body-title mb-10">Завантажити зображення</div>
                         <div class="upload-image mb-16">
-                            <!-- <div class="item">
-                                                                            <img src="images/upload/upload-1.png" alt="">
-                                                                        </div>                                                 -->
+                            @if ($product->images)
+                                @foreach (explode(',', $product->images) as $img)
+                                    <div class="item gitems">
+                                        <img src="{{ asset('uploads/products/' . trim($img)) }}"
+                                            alt="{{ $product->name }}">
+                                    </div>
+                                @endforeach
+                            @endif
                             <div id="galUpload" class="item up-load">
                                 <label class="uploadfile" for="gFile">
                                     <span class="icon">
@@ -189,7 +201,8 @@
                             <div class="body-title mb-10">Ціна<span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Введіть ціну" name="regular_price"
-                                tabindex="0" value="{{ old('regular_price') }}" aria-required="true" required="">
+                                tabindex="0" value="{{ $product->regular_price }}" aria-required="true"
+                                required="">
                         </fieldset>
                         @error('regular_price')
                             <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -202,7 +215,7 @@
                                 знижкою<span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Введіть ціну зі знижкою" name="sale_price"
-                                tabindex="0" value="{{ old('sale_price') }}" aria-required="true" required="">
+                                tabindex="0" value="{{ $product->sale_price }}" aria-required="true" required="">
                         </fieldset>
                         @error('regular_price')
                             <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -215,7 +228,7 @@
                             <div class="body-title mb-10">SKU <span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Введіть SKU" name="SKU"
-                                tabindex="0" value="{{ old('SKU') }}" aria-required="true" required="">
+                                tabindex="0" value="{{ $product->SKU }}" aria-required="true" required="">
                         </fieldset>
                         @error('SKU')
                             <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -224,7 +237,7 @@
                             <div class="body-title mb-10">Кількість <span class="tf-color-1">*</span>
                             </div>
                             <input class="mb-10" type="text" placeholder="Введіть кількість" name="quantity"
-                                tabindex="0" value="{{ old('quantity') }}" aria-required="true" required="">
+                                tabindex="0" value="{{ $product->quantity }}" aria-required="true" required="">
                         </fieldset>
                         @error('quantity')
                             <div class="tf-text-error mb-10">{{ $message }}</div>
@@ -236,8 +249,11 @@
                             <div class="body-title mb-10">Наявність</div>
                             <div class="select mb-10">
                                 <select class="" name="stock_status">
-                                    <option value="instock">В наявності</option>
-                                    <option value="outofstock">Немає в наявності</option>
+                                    <option value="instock" {{ $product->stock_status == 'instock' ? 'selected' : '' }}>В
+                                        наявності</option>
+                                    <option value="outofstock"
+                                        {{ $product->stock_status == 'outofstock' ? 'selected' : '' }}>Немає в наявності
+                                    </option>
                                 </select>
                             </div>
                         </fieldset>
@@ -251,8 +267,8 @@
                             <div class="body-title mb-10">Рекомендований товар</div>
                             <div class="select mb-10">
                                 <select class="" name="featured">
-                                    <option value="0">Ні</option>
-                                    <option value="1">Так</option>
+                                    <option value="0" {{ $product->featured == 0 ? 'selected' : '' }}>Ні</option>
+                                    <option value="1" {{ $product->featured == 1 ? 'selected' : '' }}>Так</option>
                                 </select>
                             </div>
                         </fieldset>
@@ -260,12 +276,11 @@
                             <div class="tf-text-error mb-10">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="cols gap10"></div><button class="tf-button w-full" type="submit">Додати продукт</button>
+                    <div class="cols gap10"></div><button class="tf-button w-full" type="submit">Оновити продукт</button>
                 </div>
         </div>
         </form>
     </div>
-  
 @endsection
 
 @push('scripts')

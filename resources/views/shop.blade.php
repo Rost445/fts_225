@@ -414,7 +414,7 @@
 
     {{-- Головне зображення --}}
     <div class="swiper-slide">
-        <a href="details.html">
+        <a href="{{ route('shop.details', $product->slug) }}">
             <img loading="lazy"
                  src="{{ asset('uploads/products/' . $product->image) }}"
                  width="330"
@@ -427,7 +427,7 @@
     {{-- Галерея --}}
     @foreach (explode(',', $product->images) as $gimage)
         <div class="swiper-slide">
-            <a href="details.html">
+            <a href="{{ route('shop.details', $product->slug) }}">
                 <img loading="lazy"
                      src="{{ asset('uploads/products/' . trim($gimage)) }}"
                      width="330"
@@ -456,7 +456,7 @@
 
                                 <div class="pc__info position-relative">
                                     <p class="pc__category">{{ $product->category->name }}</p>
-                                    <h6 class="pc__title"><a href="#">{{ $product->name }}</a></h6>
+                                    <h6 class="pc__title"><a href="{{ route('shop.details', $product->slug) }}">{{ $product->name }}</a></h6>
                                     <div class="product-card__price d-flex">
                                         <span class="money price">
                                             @if($product->sale_price)

@@ -42,60 +42,64 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($items as $item)
-                                <tr>
-                                    <td>
-                                        <div class="shopping-cart__product-item">
-                                            <img loading="lazy" src="{{ asset('uploads/products/thumbnails/' . $item->model->image) }}" width="120"
-                                                height="120" alt="{{ $item->name }}" />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="shopping-cart__product-item__detail">
-                                            <h4>{{ $item->name }}</h4>
-                                            <ul class="shopping-cart__product-item__options">
-                                                <li>Колір: Жовтий</li>
-                                                <li>Розмір: L</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="shopping-cart__product-price">{{ $item->price }}</span>
-                                    </td>
-                                    <td>
-                                        <div class="qty-control position-relative">
-                                            <input type="number" name="quantity" value="{{  $item->qty }}" min="1"
-                                                class="qty-control__number text-center">
-                                                  <form action="{{ route('cart.qty.decrease', $item->rowId) }}" method="post">
-                                                @csrf
-                                                @method('PUT')
-                                            <div class="qty-control__reduce">-</div>
-                                            </form>
-                                            <form action="{{ route('cart.qty.increase', $item->rowId) }}" method="post">
-                                                @csrf
-                                                @method('PUT')
-                                            <div class="qty-control__increase">+</div>
-                                            </form>
+                                @foreach ($items as $item)
+                                    <tr>
+                                        <td>
+                                            <div class="shopping-cart__product-item">
+                                                <img loading="lazy"
+                                                    src="{{ asset('uploads/products/thumbnails/' . $item->model->image) }}"
+                                                    width="120" height="120" alt="{{ $item->name }}" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="shopping-cart__product-item__detail">
+                                                <h4>{{ $item->name }}</h4>
+                                                <ul class="shopping-cart__product-item__options">
+                                                    <li>Колір: Жовтий</li>
+                                                    <li>Розмір: L</li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="shopping-cart__product-price">{{ $item->price }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="qty-control position-relative">
+                                                <input type="number" name="quantity" value="{{ $item->qty }}"
+                                                    min="1" class="qty-control__number text-center">
+                                                <form action="{{ route('cart.qty.decrease', $item->rowId) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="qty-control__reduce">-</div>
+                                                </form>
+                                                <form action="{{ route('cart.qty.increase', $item->rowId) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="qty-control__increase">+</div>
+                                                </form>
 
-                                            
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="shopping-cart__subtotal">{{ $item->subTotal() }}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="remove-cart">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="#767676"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M0.259435 8.85506L9.11449 0L10 0.885506L1.14494 9.74056L0.259435 8.85506Z" />
-                                                <path
-                                                    d="M0.885506 0.0889838L9.74057 8.94404L8.85506 9.82955L0 0.97449L0.885506 0.0889838Z" />
-                                            </svg>
-                                        </a>
-                                    </td>
-                                </tr>
-                              @endforeach
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="shopping-cart__subtotal">{{ $item->subTotal() }}</span>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('cart.item.remove', $item->rowId) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="remove-cart " aria-label="Удалить">
+                                                    <svg viewBox="0 0 24 24" width="14" height="14">
+                                                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <div class="cart-table-footer">
@@ -104,7 +108,11 @@
                                 <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
                                     value="APPLY COUPON">
                             </form>
-                            <button class="btn btn-light">Оновити кошик</button>
+                            <form action="{{ route('cart.empty') }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-light" type="submit">Очистити кошик</button>    
+                            </form>
                         </div>
                     </div>
 
@@ -113,12 +121,12 @@
                             <div class="shopping-cart__totals">
                                 <h3>
 
-Сума кошика</h3>
+                                    Сума кошика</h3>
                                 <table class="cart-totals">
                                     <tbody>
                                         <tr>
                                             <th>Проміжний підсумок</th>
-                                            <td>{{  Cart::instance('cart')->subtotal() }}</td>
+                                            <td>{{ Cart::instance('cart')->subtotal() }}</td>
                                         </tr>
                                         <tr>
                                             <th>Доставка</th>
@@ -156,14 +164,18 @@
 @endsection
 
 @push('scripts')
-<script>
-   $(function() {
-    $('.qty-control__increase').on('click', function() {
-        $(this).closest('td').find('form').last().submit();
-    });
-    $('.qty-control__reduce').on('click', function() {
-        $(this).closest('td').find('form').first().submit();
-    });
-   });
-</script>
+    <script>
+        $(function() {
+            $('.qty-control__increase').on('click', function() {
+                $(this).closest('td').find('form').last().submit();
+            });
+            $('.qty-control__reduce').on('click', function() {
+                $(this).closest('td').find('form').first().submit();
+            });
+
+            $('.remove-cart').on('click', function() {
+                $(this).closest('form').submit();
+            });
+        });
+    </script>
 @endpush

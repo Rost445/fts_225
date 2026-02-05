@@ -357,9 +357,11 @@
 
                 <div class="d-flex justify-content-between mb-4 pb-md-2">
                     <div class="breadcrumb mb-0 d-none d-md-block flex-grow-1">
-                        <a href="{{ route('home.index') }}" class="menu-link menu-link_us-s text-uppercase fw-medium">Головна</a>
+                        <a href="{{ route('home.index') }}"
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">Головна</a>
                         <span class="breadcrumb-separator menu-link fw-medium ps-1 pe-1">/</span>
-                        <a href="{{ route('shop.index') }}" class="menu-link menu-link_us-s text-uppercase fw-medium">Магазин</a>
+                        <a href="{{ route('shop.index') }}"
+                            class="menu-link menu-link_us-s text-uppercase fw-medium">Магазин</a>
                     </div>
 
                     <div
@@ -410,35 +412,31 @@
                                 <div class="pc__img-wrapper">
                                     <div class="swiper-container background-img js-swiper-slider"
                                         data-settings='{"resizeObserver": true}'>
-                                      <div class="swiper-wrapper">
+                                        <div class="swiper-wrapper">
 
-    {{-- Головне зображення --}}
-    <div class="swiper-slide">
-        <a href="{{ route('shop.details', $product->slug) }}">
-            <img loading="lazy"
-                 src="{{ asset('uploads/products/' . $product->image) }}"
-                 width="330"
-                 height="400"
-                 alt="{{ $product->name }}"
-                 class="pc__img">
-        </a>
-    </div>
+                                            {{-- Головне зображення --}}
+                                            <div class="swiper-slide">
+                                                <a href="{{ route('shop.product.details', $product->slug) }}">
+                                                    <img loading="lazy"
+                                                        src="{{ asset('uploads/products/' . $product->image) }}"
+                                                        width="330" height="400" alt="{{ $product->name }}"
+                                                        class="pc__img">
+                                                </a>
+                                            </div>
 
-    {{-- Галерея --}}
-    @foreach (explode(',', $product->images) as $gimage)
-        <div class="swiper-slide">
-            <a href="{{ route('shop.details', $product->slug) }}">
-                <img loading="lazy"
-                     src="{{ asset('uploads/products/' . trim($gimage)) }}"
-                     width="330"
-                     height="400"
-                     alt="{{ $product->name }}"
-                     class="pc__img">
-            </a>
-        </div>
-    @endforeach
+                                            {{-- Галерея --}}
+                                            @foreach (explode(',', $product->images) as $gimage)
+                                                <div class="swiper-slide">
+                                                    <a href="{{ route('shop.product.details', $product->slug) }}">
+                                                        <img loading="lazy"
+                                                            src="{{ asset('uploads/products/' . trim($gimage)) }}"
+                                                            width="330" height="400" alt="{{ $product->name }}"
+                                                            class="pc__img">
+                                                    </a>
+                                                </div>
+                                            @endforeach
 
-</div>
+                                        </div>
 
                                         <span class="pc__img-prev"><svg width="7" height="11" viewBox="0 0 7 11"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -449,18 +447,37 @@
                                                 <use href="#icon_next_sm" />
                                             </svg></span>
                                     </div>
-                                    <button
-                                        class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium js-add-cart js-open-aside"
-                                        data-aside="cartDrawer" title="Add To Cart">До кошика</button>
+                                    @if (Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
+                                        <a href="{{ route('cart.index') }}"
+                                            class="pc__atc btn anim_appear-bottom btn btn-warning position-absolute border-0 text-uppercase fw-medium ">Перейти
+                                            до кошика</a>
+                                    @else
+                                        <form name="addtocart-form" method="post" action="{{ route('cart.add') }}">
+                                            @csrf
+                                            <div class="product-single__addtocart">
+                                                <input type="hidden" name="id" value="{{ $product->id }}" />
+                                                <input type="hidden" name="quantity" value="1">
+                                                <input type="hidden" name="name" value="{{ $product->name }}" />
+                                                <input type="hidden" name="price"
+                                                    value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}" /><!-- .qty-control -->
+                                                <button type="submit" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                                                    data-aside="cartDrawer">Додати до кошика</button>
+                                            </div>
+                                        </form>
+                                    @endif
+
                                 </div>
 
                                 <div class="pc__info position-relative">
                                     <p class="pc__category">{{ $product->category->name }}</p>
-                                    <h6 class="pc__title"><a href="{{ route('shop.details', $product->slug) }}">{{ $product->name }}</a></h6>
+                                    <h6 class="pc__title"><a
+                                            href="{{ route('shop.product.details', $product->slug) }}">{{ $product->name }}</a>
+                                    </h6>
                                     <div class="product-card__price d-flex">
                                         <span class="money price">
-                                            @if($product->sale_price)
-                                                <s class="text-secondary">{{ number_format($product->regular_price, 2) }} &nbsp;₴</s> {{ $product->sale_price }} &nbsp;₴
+                                            @if ($product->sale_price)
+                                                <s class="text-secondary">{{ number_format($product->regular_price, 2) }}
+                                                    &nbsp;₴</s> {{ $product->sale_price }} &nbsp;₴
                                             @else
                                                 <span class="price-old text-secondary text-decoration-line-through ms-2">
                                                     ${{ number_format($product->price, 2) }}
@@ -509,10 +526,10 @@
                     @endforeach
                 </div>
 
-               <div class="divider"></div>
-               <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                {{ $products->links('pagination::bootstrap-5') }}
-               </div>
+                <div class="divider"></div>
+                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                    {{ $products->links('pagination::bootstrap-5') }}
+                </div>
             </div>
         </section>
     </main>

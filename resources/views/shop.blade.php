@@ -163,15 +163,19 @@
                         <div id="accordion-filter-brand" class="accordion-collapse collapse show border-0"
                             aria-labelledby="accordion-heading-brand" data-bs-parent="#brand-filters">
                             <div class="search-field multi-select accordion-body px-0 pb-0">
-                                <select class="d-none" multiple name="total-numbers-list">
-                                    <option value="1">Adidas</option>
-                                    <option value="2">Balmain</option>
-                                    <option value="3">Balenciaga</option>
-                                    <option value="4">Burberry</option>
-                                    <option value="5">Kenzo</option>
-                                    <option value="5">Givenchy</option>
-                                    <option value="5">Zara</option>
-                                </select>
+                                <ul class="list list-inline mb-0 brand-list">
+                                    @foreach ($brands as $brand)
+                                        <li class="list-item">
+                                            <span class="menu-link py-1"></span>
+                                                <input type="checkbox" name="brands" class="chk-brand" value="{{ $brand->id }}"
+                                                @if(in_array($brand->id, explode(',', $f_brands))) checked="checked" @endif >
+                                                {{ $brand->name }} 
+                                            </span> 
+                                            <span class="text-right float-end text-secondary">{{ $brand->products->count() }}</span>
+                                        </li>
+                                    @endforeach
+
+                                </ul>
                                 <div class="search-field__input-wrapper mb-3">
                                     <input type="text" name="search_text"
                                         class="search-field__input form-control form-control-sm border-light border-2"
@@ -379,7 +383,8 @@
                             <option value="-1" {{ $order == -1 ? 'selected' : '' }}>За замовчуванням</option>
                             <option value="1" {{ $order == 1 ? 'selected' : '' }}>Дата: від нових до старих</option>
                             <option value="2" {{ $order == 2 ? 'selected' : '' }}>Дата: від старих до нових</option>
-                            <option value="3" {{ $order == 3 ? 'selected' : '' }}>Ціна: від дешевих до дорогих</option>
+                            <option value="3" {{ $order == 3 ? 'selected' : '' }}>Ціна: від дешевих до дорогих
+                            </option>
                             <option value="4" {{ $order == 4 ? 'selected' : '' }}>Ціна: від дорогих до дешевих
                             </option>
 
@@ -550,6 +555,7 @@
         <input type="hidden" name="page" value="{{ $products->currentPage() }}">
         <input type="hidden" name="size" id="size" value="{{ $size }}">
         <input type="hidden" name="order" id="order" value="{{ $order }}">
+        <input type="hidden" name="brands" id="hdnBrands">
     </form>
 @endsection
 
@@ -567,6 +573,22 @@
                 $("#frmfilters").submit();
 
             });
+
+            $("input[name='brands']").on("change", function() {
+                var brands = "";
+                $("input[name='brands']:checked").each(function() {
+                   if(brands == "")
+                   {
+                    brands += $(this).val();
+                     }
+                     else
+                     {
+                    brands += "," + $(this).val();
+                     }
+                });
+              $("#hdnBrands").val(brands);
+                $("#frmfilters").submit();
         });
+          });
     </script>
-    @endpush
+@endpush

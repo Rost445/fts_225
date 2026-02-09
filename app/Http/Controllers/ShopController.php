@@ -25,11 +25,11 @@ class ShopController extends Controller
                 $o_order = 'ASC';
                 break;
                 case 3:
-                $o_column = 'regular_price';
+                $o_column = 'sale_price';
                 $o_order = 'ASC';
                 break;
                 case 4:
-                $o_column = 'regular_price';
+                $o_column = 'sale_price';
                 $o_order = 'DESC';
                 break;
             default:

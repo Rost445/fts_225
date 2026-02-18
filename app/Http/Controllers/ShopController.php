@@ -17,8 +17,8 @@ class ShopController extends Controller
         $order = $request->query('order') ? $request->query('order') : -1;
         $f_brands = $request->query('brands');
         $f_categories = $request->query('categories');
-        $min_price = $request->query('min') ? $request->query('min') : 1;
-        $max_price = $request->query('max') ? $request->query('max') : 10000;
+        $min_price = $request->query('min') ? $request->query('min') : 10;
+        $max_price = $request->query('max') ? $request->query('max') : 5000;
 
         switch ($order) {
             case 1:

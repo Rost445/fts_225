@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.4:3306
--- Час створення: Гру 29 2025 р., 13:28
+-- Час створення: Лют 19 2026 р., 11:17
 -- Версія сервера: 8.4.6
 -- Версія PHP: 8.4.13
 
@@ -41,7 +41,8 @@ CREATE TABLE `brands` (
 --
 
 INSERT INTO `brands` (`id`, `name`, `slug`, `image`, `created_at`, `updated_at`) VALUES
-(24, 'fts', 'fts', '1766996831.png', '2025-12-29 06:27:14', '2025-12-29 06:27:14');
+(27, 'fts', 'fts', '1771411787.png', '2026-02-18 08:49:48', '2026-02-18 08:49:48'),
+(28, 'bravomix', 'bravomix', '1771411882.jpg', '2026-02-18 08:51:22', '2026-02-18 08:51:22');
 
 -- --------------------------------------------------------
 
@@ -88,8 +89,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `image`, `parent_id`, `created_at`, `updated_at`) VALUES
-(1, 'farby', 'farby', '1767007273.png', NULL, '2025-12-29 09:21:14', '2025-12-29 09:21:14'),
-(4, 'Штукатурки', 'stukaturki', '1767007531.png', NULL, '2025-12-29 09:25:31', '2025-12-29 09:25:31');
+(6, 'пінопласт', 'pinoplast', '1771411659.jpg', NULL, '2026-02-18 08:47:42', '2026-02-18 08:47:42'),
+(7, 'Сухі суміші', 'suxi-sumisi', '1771411704.jpg', NULL, '2026-02-18 08:48:24', '2026-02-18 08:48:24'),
+(8, 'Штукатурки фасадні', 'stukaturki-fasadni', '1771411741.png', NULL, '2026-02-18 08:49:01', '2026-02-18 08:49:01');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (5, '0001_01_01_000001_create_cache_table', 1),
 (6, '0001_01_01_000002_create_jobs_table', 1),
 (7, '2025_12_23_070623_create_brands_table', 2),
-(8, '2025_12_29_095611_create_categories_table', 3);
+(8, '2025_12_29_095611_create_categories_table', 3),
+(9, '2025_12_29_122108_create_products_table', 4);
 
 -- --------------------------------------------------------
 
@@ -176,6 +179,42 @@ CREATE TABLE `password_reset_tokens` (
   `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `products`
+--
+
+CREATE TABLE `products` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `regular_price` decimal(8,2) NOT NULL,
+  `sale_price` decimal(8,2) DEFAULT NULL,
+  `SKU` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `stock_status` enum('instock','outofstock') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `featured` tinyint(1) NOT NULL DEFAULT '0',
+  `quantity` int UNSIGNED NOT NULL DEFAULT '10',
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `images` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_id` bigint UNSIGNED DEFAULT NULL,
+  `brand_id` bigint UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `slug`, `short_description`, `description`, `regular_price`, `sale_price`, `SKU`, `stock_status`, `featured`, `quantity`, `image`, `images`, `category_id`, `brand_id`, `created_at`, `updated_at`) VALUES
+(15, 'EPS S', 'eps-s', 'Виробництво пінополістирольних  плит BRAVOMIX  EPS S відбувається на новітньому обладнанні виключно з високоякісної сировини, що забезпечує високу якість продукції. Рекомендовано застосовувати в системах, що не створюють механічного навантаження на утеплювач.', 'Сфера застосування\r\nтермоізоляція в каркасних стінах зовнішнього та внутрішнього типу;\r\nтермоізоляція у конструкціях типу «тришарових» стін;\r\nтермоізоляція внутрішніх перегородок і стін;\r\nтермоізоляція перекриттів знизу з подальшим облицюванням;\r\nтермоізоляція легких перекриттів на основі каркасної конструкції з облицювальним шаром;\r\nтермоізоляція дахів з похилою конструкцією між кроквами;\r\nтермоізоляція тимчасових споруд, вагонів, холодильних камер;\r\nвикористання у виготовленні меблів, зокрема як пакувальний матеріал або як елемент безкаркасних виробів;\r\nінші будівельні чи промислові рішення, де відсутнє механічне навантаження на теплоізоляційний матеріал.', 1075.00, 1070.00, '2026-1', 'instock', 0, 1, '1771412508.jpg', '1771412754-1.jpg', 6, 28, '2026-02-18 09:01:48', '2026-02-18 09:05:55'),
+(16, 'EPS 30', 'eps-30', 'Вартість пінопласту вказана за 1 м³', 'Виробництво пінополістирольних  плит BRAVOMIX  EPS 30 відбувається на новітньому обладнанні виключно з високоякісної сировини, що забезпечує високу якість продукції. Рекомендовано застосовувати в системах, що не створюють механічного навантаження на утеплювач.\r\n\r\nСфера застосування:\r\n• для зовнішньої теплоізоляції в будівельних спорудах;\r\n\r\n• для теплоізоляції фасадів з використанням сайдингу, профнастилу, тощо;\r\n\r\n• для утеплення внутрішніх стін та перегородок;\r\n\r\n• для звуко- і теплоізоляції в каркасних конструкціях та в машинобудуванні;\r\n\r\n• для виконання теплоізоляції в дахах між кроквами та під ними; підвісних стелях;\r\n\r\n• для упаковки продукції харчової та меблевої промисловості.\r\n\r\nПри виробництві допустимі відхилення від мінімальних лінійних розмірів плит: по довжині та ширині до 5мм, по товщині до 3мм. Можна виконувати індивідуальні замовлення розмірів пінополасту.\r\n\r\nПризначення об’єктів, в яких планується виконувати теплоізоляцію є різними. А тому товщину та марку пінополістирольних плит необхідно обирати згідно проектних вимог будівництва, враховуючи практичні поради спеціалістів та дотримуючись при цьому вимог діючого законодавства України. Крім цього, Ви завжди зможете скористатися допомогою – отримати необхідну консультацію у менеджерів нашої компанії для оптимізації показників теплоізоляції.', 1234.00, 1230.00, '2026-2', 'instock', 0, 1, '1771412709.webp', '1771412709-1.webp', 6, 28, '2026-02-18 09:04:57', '2026-02-18 09:05:10'),
+(17, 'TERMO 1', 'termo-1', 'Клей для пінопласту FTS TERMO 1 – суха суміш на цементній основі, призначена для приклеювання пінополістирольних теплоізоляційних плит в системі утеплення FTS.', 'Клей для пінопласту FTS TERMO 1 – суха суміш на цементній основі, призначена для приклеювання пінополістирольних теплоізоляційних плит в системі утеплення FTS. Екологічно чиста клейова суміш має високу адгезію до мінеральних та органічних основ, еластична, паропроникна, атмосферостійка, зручна у використанні.\r\n\r\nСклад\r\n\r\nКлей для пінопласту FTS TERMO 1 – суміш цементу з мінеральними наповнювачами і добавками.\r\n\r\nЗастосування та нанесення\r\n\r\nПоверхня основи повинна бути сухою, міцною, очищеною від бруду, масляних плям та інших речовин, що знижують адгезію клейового розчину. Штукатурною масою вирівняти значні нерівності та тріщини. Після цього основу необхідно погрунтувати грунтом глибокого проникнення FTS. Клей для пінопласту FTS TERMO 1 насипати у ємність з водою з розрахунку 0,18-0,23 л на 1 кг сухої суміші і перемішати до отримання однорідної, еластичної маси. Клейовий розчин витримати 5 хвилин, після чого знову перемішати та використати на протязі 2-х годин. В залежності від величини нерівностей поверхні основи, що утеплюється, обирають один із способів приклеювання пінополістирольних плит: \r\n\r\n– суцільний – якщо поверхня стіни має нерівності до 5мм, клейову суміш наносять тонким\r\n\r\nсуцільним шаром по всій поверхні плити, а потім вирівнюють зубчастим шпателем із розміром зубця 10Х10мм. При цьому\r\n\r\nклейовий розчин повинен бути видалений від країв утеплювача на 10-15мм. \r\n\r\n– смуговий – коли поверхня стіни має нерівності до 10мм, приготовлений клейовий розчин наносять на утеплювач у вигляді смуг шириною 60мм і висотою 20мм, на відстані 15-20мм від країв по всьому його периметру, а потім посередині у два ряди. Щоб запобігти утворенню повітряних пробок при приклеюванні пінополістирольних плит, нанесені смуги повинні мати розриви між собою 30-50мм.\r\n\r\n – маяковий – якщо основа має нерівності до 15мм, клейову суміш наносять на поверхню плити розривними смугами шириною 60мм і висотою 20мм, на відстані 15-20мм від країв утеплювача по всьому його периметру, а потім посередині грудками у вигляді маяків з розрахунку 5-8 штук діаметром близько 100мм на плиту розміром 0,5мХ1,0м.\r\n\r\nНезалежно від обраного способу приклеювання пінополістирольних плит, клейова суміш повинна займати не менше 60% площі утеплювача. Після нанесення клею, плиту слід одразу встановити в проектне положення і притиснути до поверхні. Плити потрібно приклеювати щільно одна до одної в одній площині та не допускати збігу вертикальних швів. Ширина швів не повинна перевищувати 2-х мм. Не наносити клейовий розчин на бокові грані плити утеплювача, оскільки він буде утворювати «теплові містки», знижуючи при цьому ефективність всієї системи утеплення. Залишки клейової суміші слід видалити до її затвердіння за допомогою шпателя. Механічне кріплення фасадними дюбелями пінополістирольних плит виконують через 2-3 доби після їх приклеювання до основи.Приклеювання пінополістирольних плит слід виконувати при температурі від +5°С до + 30°С та відносній вологості повітря не більше 80%. Поверхню стін під час приклеювання утеплювача слід оберігати від попадання прямих сонячних променів та дощу. Не виконувати роботи при сильному вітрові. Після закінчення робіт інструмент помити водою. Ефективність вищенаведених рекомендацій є максимальною при температурі +20°С та відносній вологості повітря – 60%. Тоді затвердіння клею відбувається через 2-3 доби, а тужавіння – після 7-ми діб. За інших умов ці показники можуть змінюватися.\r\n\r\nЗапобіжні заходи\r\n\r\nПід час виконання робіт берегти очі та шкіру. При попаданні клейового розчину в очі, негайно промити їх водою, при необхідності звернутися за допомогою до лікаря. Невикористаний клейовий розчин не виливати в каналізацію. Залишки продукту утилізувати як будівельне сміття.\r\n\r\nЗберігання\r\n\r\nГарантійний термін зберігання в сухих приміщеннях на піддонах, у фірмових мішках – 12 місяців від дати виготовлення, вказаної на упаковці. Номер партії відповідає даті виготовлення.\r\n\r\nУпаковка\r\n\r\nКлей для пінопласту FTS TERMO 1 фасується в паперові мішки по 25 кг, 42 шт. на піддоні.', 190.00, 180.00, '2026-3', 'instock', 0, 1, '1771412914.webp', '1771412914-1.webp', 7, 27, '2026-02-18 09:08:34', '2026-02-18 09:08:34'),
+(18, 'G-410 | Мозаїчна штукатурка', 'g-410-', 'Мозаїчна штукатурка GRANIT є високоякісним декоративно-оздоблювальним матеріалом, виготовленим на основі мармурової крихти, слюди. Розмір зерна 1,2мм.', 'Застосування та нанесення\r\n\r\nМозаїчна штукатурка STONE LINE GRANIT призначена для нанесення на армований шар в системі утеплення FTS із використанням пінополістиролу, мінеральні та бетонні поверхні, гіпсокартонні і деревостружкові плити. Відмінні декоративно-покривні якості штукатурки сприяють її широкому застосуванню як для зовнішніх фрагментів фа саду (цоколь, стіни, віконні та дверні відкоси, ог ороджувальні стовпчики), так і для оздоблення всередині примі щень (колони, стіни, пілястри та інші частини будівельних конструкцій). Будучи міцною і стійкою до механічних пошкоджень, мозаїчна штукатурка ефективно використовується як оздоблювальний матеріал в приміщеннях адміністративно-побутового типу. Штукатурка наноситься на чисту, гладку, суху та тверду основу, попередньо погрунтовану кварцовим грунтом FTS. Штукатурку перед нанесенням потрібно ретельно перемішати та звірити її відповідність згідно замовлення. При необхідності поступово розбавляти водою (але не більше 2% від ваги штукатурки) до належної консистенції. Наносити рівномірним шаром по всій поверхні на товщину зерна за допомогою нержавіючого шпателя по визначених архітектурни х межах за один робочий цикл. Для збереження ідентичності кольору на одній площині рекомендується використовувати мат еріал однієї партії, номер якої вказаний на кришці.\r\n\r\nУмови нанесення\r\n\r\nШтукатурку наносити при температурі від +10°С до +25°С та відносній вологості повітря не більше 80%. При температурі навколишнього середовища +20°С та відносній вологості повітря 60% висихання мозаїчної штукатурки відбудеться після 24-х годин. За інших погодних умов цей процес може тривати 24-48 годин. Нанесенню мозаїчної штукатурки на примикаючі до поверхні землі бетонні та інші мінеральні основи (цоколь, стовпчики, стіни підвальних приміщень) має передувати їхня професійно виконана гідроізоляція і водовідведення від будинку, а також для захисту від вологої основи, – теплоізоляція пінополістирольними плитами високої щільності товщиною не менше 2см. Це не допустить «здуття» або відшарування мозаїчної штукатурки та збільшить термін її експлуатації. Висихання штукатурки всередині приміщень повинно супроводжуватись їхнім постійним провітрюванням. До повного висихання оберігати штукатурку від дощу. Не наносити штукатурку в спекотну погоду, при сильному вітрі та при попаданні на поверхню прямих сонячних променів. Після закінчення робіт інструмент помити водою.\r\n\r\nЗапобіжні заходи\r\n\r\nПід час нанесення штукатурки берегти очі та шкіру. У випадку попадання штукатурної маси в очі, негайно промити їх водою, при необхідності звернутися за допомогою до лікаря.\r\n\r\nЗберігання\r\n\r\nОберігати мозаїчну штукатурку від попадання прямих сонячних променів та морозу. Гарантійний термін зберігання в герметично закритій фірмовій тарі при температурі від +5°С до +35°С – 12 місяців від дати виготовлення. Дата виготовлення вказана на кришці.\r\n\r\nТара\r\n\r\n18кг (відро).\r\n\r\n \r\n\r\nСередній розхід:\r\n\r\nGRANIT 1,2мм - 1,9-2,2 кг/м²', 1711.00, 1700.00, '2026-4', 'instock', 1, 1, '1771413269.png', '1771413269-1.webp', 8, 27, '2026-02-18 09:14:29', '2026-02-18 09:14:29');
 
 -- --------------------------------------------------------
 
@@ -197,7 +236,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('eYgljcYM3qvp80ca4hKruouBFqiPuCMx8VjzY31D', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicFNkTUNRRlZRQjVmR01peGhKYTVxcFJDZDFtSlFCeldrY09DU2JmMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9jYXRlZ29yaWVzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3NjY5ODk4OTI7fX0=', 1767007531);
+('2JiXGScBImCvWkHDp3cKbX5LLimoJBY45bMTlrUB', NULL, '127.0.0.1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMWluaGg2TmVOa3RpWmRmVDljTnRpczN2eTZTZktmZnE4NGw0RHc3RyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9zaG9wIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo0OiJjYXJ0IjthOjI6e3M6OToid2hpc2hsaXN0IjtPOjI5OiJJbGx1bWluYXRlXFN1cHBvcnRcQ29sbGVjdGlvbiI6Mjp7czo4OiIAKgBpdGVtcyI7YTo0OntzOjMyOiIzMDNhN2YwMjM2NGYxZTkyZGM2MGMwNWM5YjE1MjM5ZiI7TzozNToiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0iOjk6e3M6NToicm93SWQiO3M6MzI6IjMwM2E3ZjAyMzY0ZjFlOTJkYzYwYzA1YzliMTUyMzlmIjtzOjI6ImlkIjtzOjI6IjE4IjtzOjM6InF0eSI7aToxMjtzOjQ6Im5hbWUiO3M6NDU6IkctNDEwIHwg0JzQvtC30LDRl9GH0L3QsCDRiNGC0YPQutCw0YLRg9GA0LrQsCI7czo1OiJwcmljZSI7ZDoxNzAwO3M6Nzoib3B0aW9ucyI7Tzo0MjoiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW1PcHRpb25zIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTI6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBhc3NvY2lhdGVkTW9kZWwiO3M6MTg6IkFwcFxNb2RlbHNcUHJvZHVjdCI7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAHRheFJhdGUiO2k6MjE7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGlzU2F2ZWQiO2I6MDt9czozMjoiYTRlOTM1YTc1ODEyNjY3YTg0OWYzZGZlZjFjNTk0MGIiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiJhNGU5MzVhNzU4MTI2NjdhODQ5ZjNkZmVmMWM1OTQwYiI7czoyOiJpZCI7czoyOiIxNyI7czozOiJxdHkiO2k6MjtzOjQ6Im5hbWUiO3M6NzoiVEVSTU8gMSI7czo1OiJwcmljZSI7ZDoxODA7czo3OiJvcHRpb25zIjtPOjQyOiJTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbU9wdGlvbnMiOjI6e3M6ODoiACoAaXRlbXMiO2E6MDp7fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9czo1MjoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGFzc29jaWF0ZWRNb2RlbCI7czoxODoiQXBwXE1vZGVsc1xQcm9kdWN0IjtzOjQ0OiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AdGF4UmF0ZSI7aToyMTtzOjQ0OiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AaXNTYXZlZCI7YjowO31zOjMyOiJhYjQ3NGE3MjQ3NWVhNmVhNTRkMjA4NWU1Y2RhY2MyOCI7TzozNToiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0iOjk6e3M6NToicm93SWQiO3M6MzI6ImFiNDc0YTcyNDc1ZWE2ZWE1NGQyMDg1ZTVjZGFjYzI4IjtzOjI6ImlkIjtzOjI6IjE1IjtzOjM6InF0eSI7aTozO3M6NDoibmFtZSI7czo1OiJFUFMgUyI7czo1OiJwcmljZSI7ZDoxMDcwO3M6Nzoib3B0aW9ucyI7Tzo0MjoiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW1PcHRpb25zIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTI6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBhc3NvY2lhdGVkTW9kZWwiO3M6MTg6IkFwcFxNb2RlbHNcUHJvZHVjdCI7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAHRheFJhdGUiO2k6MjE7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGlzU2F2ZWQiO2I6MDt9czozMjoiMDdjY2ExNTE2OGIxYTVlNDhlMGY4OWQ4NzhmYmY2ZWEiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiIwN2NjYTE1MTY4YjFhNWU0OGUwZjg5ZDg3OGZiZjZlYSI7czoyOiJpZCI7czoyOiIxNiI7czozOiJxdHkiO3M6MToiMSI7czo0OiJuYW1lIjtzOjY6IkVQUyAzMCI7czo1OiJwcmljZSI7ZDoxMjMwO3M6Nzoib3B0aW9ucyI7Tzo0MjoiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW1PcHRpb25zIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTI6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBhc3NvY2lhdGVkTW9kZWwiO3M6MTg6IkFwcFxNb2RlbHNcUHJvZHVjdCI7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAHRheFJhdGUiO2k6MjE7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGlzU2F2ZWQiO2I6MDt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9czo4OiJ3aXNobGlzdCI7TzoyOToiSWxsdW1pbmF0ZVxTdXBwb3J0XENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6NDp7czozMjoiMzAzYTdmMDIzNjRmMWU5MmRjNjBjMDVjOWIxNTIzOWYiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiIzMDNhN2YwMjM2NGYxZTkyZGM2MGMwNWM5YjE1MjM5ZiI7czoyOiJpZCI7czoyOiIxOCI7czozOiJxdHkiO3M6MToiMSI7czo0OiJuYW1lIjtzOjQ1OiJHLTQxMCB8INCc0L7Qt9Cw0ZfRh9C90LAg0YjRgtGD0LrQsNGC0YPRgNC60LAiO3M6NToicHJpY2UiO2Q6MTcwMDtzOjc6Im9wdGlvbnMiO086NDI6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtT3B0aW9ucyI6Mjp7czo4OiIAKgBpdGVtcyI7YTowOnt9czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjUyOiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AYXNzb2NpYXRlZE1vZGVsIjtzOjE4OiJBcHBcTW9kZWxzXFByb2R1Y3QiO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQB0YXhSYXRlIjtpOjIxO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBpc1NhdmVkIjtiOjA7fXM6MzI6ImE0ZTkzNWE3NTgxMjY2N2E4NDlmM2RmZWYxYzU5NDBiIjtPOjM1OiJTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbSI6OTp7czo1OiJyb3dJZCI7czozMjoiYTRlOTM1YTc1ODEyNjY3YTg0OWYzZGZlZjFjNTk0MGIiO3M6MjoiaWQiO3M6MjoiMTciO3M6MzoicXR5IjtzOjE6IjEiO3M6NDoibmFtZSI7czo3OiJURVJNTyAxIjtzOjU6InByaWNlIjtkOjE4MDtzOjc6Im9wdGlvbnMiO086NDI6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtT3B0aW9ucyI6Mjp7czo4OiIAKgBpdGVtcyI7YTowOnt9czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjUyOiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AYXNzb2NpYXRlZE1vZGVsIjtzOjE4OiJBcHBcTW9kZWxzXFByb2R1Y3QiO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQB0YXhSYXRlIjtpOjIxO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBpc1NhdmVkIjtiOjA7fXM6MzI6IjA3Y2NhMTUxNjhiMWE1ZTQ4ZTBmODlkODc4ZmJmNmVhIjtPOjM1OiJTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbSI6OTp7czo1OiJyb3dJZCI7czozMjoiMDdjY2ExNTE2OGIxYTVlNDhlMGY4OWQ4NzhmYmY2ZWEiO3M6MjoiaWQiO3M6MjoiMTYiO3M6MzoicXR5IjtzOjE6IjEiO3M6NDoibmFtZSI7czo2OiJFUFMgMzAiO3M6NToicHJpY2UiO2Q6MTIzMDtzOjc6Im9wdGlvbnMiO086NDI6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtT3B0aW9ucyI6Mjp7czo4OiIAKgBpdGVtcyI7YTowOnt9czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjUyOiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AYXNzb2NpYXRlZE1vZGVsIjtzOjE4OiJBcHBcTW9kZWxzXFByb2R1Y3QiO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQB0YXhSYXRlIjtpOjIxO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBpc1NhdmVkIjtiOjA7fXM6MzI6ImFiNDc0YTcyNDc1ZWE2ZWE1NGQyMDg1ZTVjZGFjYzI4IjtPOjM1OiJTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbSI6OTp7czo1OiJyb3dJZCI7czozMjoiYWI0NzRhNzI0NzVlYTZlYTU0ZDIwODVlNWNkYWNjMjgiO3M6MjoiaWQiO3M6MjoiMTUiO3M6MzoicXR5IjtzOjE6IjEiO3M6NDoibmFtZSI7czo1OiJFUFMgUyI7czo1OiJwcmljZSI7ZDoxMDcwO3M6Nzoib3B0aW9ucyI7Tzo0MjoiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW1PcHRpb25zIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTI6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBhc3NvY2lhdGVkTW9kZWwiO3M6MTg6IkFwcFxNb2RlbHNcUHJvZHVjdCI7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAHRheFJhdGUiO2k6MjE7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGlzU2F2ZWQiO2I6MDt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9fX0=', 1771492533);
 
 -- --------------------------------------------------------
 
@@ -286,6 +325,16 @@ ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
 --
+-- Індекси таблиці `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `products_slug_unique` (`slug`),
+  ADD UNIQUE KEY `products_sku_unique` (`SKU`),
+  ADD KEY `products_category_id_foreign` (`category_id`),
+  ADD KEY `products_brand_id_foreign` (`brand_id`);
+
+--
 -- Індекси таблиці `sessions`
 --
 ALTER TABLE `sessions`
@@ -309,13 +358,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблиці `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT для таблиці `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблиці `failed_jobs`
@@ -333,13 +382,30 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT для таблиці `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT для таблиці `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT для таблиці `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Обмеження зовнішнього ключа збережених таблиць
+--
+
+--
+-- Обмеження зовнішнього ключа таблиці `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `products_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

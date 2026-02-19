@@ -1,5 +1,12 @@
 @extends('layouts.app')
 @section('content')
+<style>
+  table th,
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+</style>
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
         <section class="shop-checkout container">
@@ -11,12 +18,12 @@
                     <table class="cart-table">
                         <thead>
                             <tr>
-                                <th>Товар</th>
-                                <th></th>
+                                <th>Фото</th>
+                                <th>Назва</th>
                                 <th>Ціна</th>
                                 <th>Кількість</th>
-                                <th>Сума</th>
-                                <th></th>
+                                <th>Дія</th>
+                                <th>Видалити</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,12 +46,18 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="shopping-cart__product-price">{{ $item->price }} ₴</span>
+                                        {{ $item->price }} ₴
                                     </td>
                                     <td>
-                                        <div class="qty-control position-relative">
+                                       
                                             {{ $item->qty }}
-                                        </div>
+                                      
+                                    </td>
+                                    <td>
+                                      <form action="{{ route('wishlist.move.to.cart', ['rowId' => $item->rowId]) }}" method="POST" >
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-primary">Перемістити в кошик</button> 
+                                        </form>
                                     </td>
                                     <td>
 

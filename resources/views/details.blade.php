@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    .filled-heart {
+        color: orange
+    }
+</style>
     <main class="pt-90">
         <div class="mb-md-1 pb-md-3"></div>
         <section class="product-single container">
@@ -145,10 +150,29 @@
                         </form>
                     @endif
                     <div class="product-single__addtolinks">
-                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16"
-                                height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <use href="#icon_heart" />
-                            </svg><span>Add to Wishlist</span></a>
+                        @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
+                            <a href="javascript:void(0)"
+                                class="menu-link menu-link_us-s add-to-wishlist filled-heart"><svg width="16"
+                                    height="16" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_heart" />
+                                </svg><span>Видалити зі списку бажань</span></a>
+                        @else
+                            <form method="post" action="{{ route('wishlist.add') }}" id="wishlist-form">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $product->id }}" />
+                                <input type="hidden" name="name" value="{{ $product->name }}" />
+                                <input type="hidden" name="price"
+                                    value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}" />
+                                <input type="hidden" name="quantity" value="1">
+                                <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist" onclick="document.getElementById('wishlist-form').submit();"><svg width="16"
+                                        height="16" viewBox="0 0 20 20" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <use href="#icon_heart" />
+                                    </svg><span>Додати до списку бажань</span></a>
+                            </form>
+                        @endif
+
                         <share-button class="share-button">
                             <button
                                 class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
@@ -494,15 +518,18 @@
                                 <div class="pc__info position-relative">
                                     <p class="pc__category">{{ $rproduct->category->name }}</p>
                                     <h6 class="pc__title"><a
-                                                href="{{ route('shop.product.details', $product->slug) }}">{{ $rproduct->name }}</a></h6>
+                                            href="{{ route('shop.product.details', $product->slug) }}">{{ $rproduct->name }}</a>
+                                    </h6>
                                     <div class="product-card__price d-flex">
-                                        <span class="money price">  @if ($product->sale_price)
-                                                    <s>{{ $product->regular_price }} &nbsp;₴</s>
+                                        <span class="money price">
+                                            @if ($product->sale_price)
+                                                <s>{{ $product->regular_price }} &nbsp;₴</s>
 
-                                                    {{ $product->sale_price }} &nbsp;₴
-                                                @else
-                                                    {{ $product->regular_price }} &nbsp;₴
-                                                @endif</span>
+                                                {{ $product->sale_price }} &nbsp;₴
+                                            @else
+                                                {{ $product->regular_price }} &nbsp;₴
+                                            @endif
+                                        </span>
                                     </div>
 
                                     <button

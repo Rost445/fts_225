@@ -1,19 +1,24 @@
 @extends('layouts.app')
 @section('content')
+    <style>
+        .brand-list li,
+        .category-list li {
+            line-height: 40px;
+        }
 
-<style>
-    .brand-list li, .category-list li{
-     line-height: 40px;
-    }
-      .brand-list li .chk-brand, .category-list li .chk-category{
-        width: 1rem;
-        height: 1rem;
-        color:#E4E4E4;
-        border:0.125rem solid #E4E4E4;
-        border-radius: 0;
-        margin-right: 0.75rem;
-    }
-</style>
+        .brand-list li .chk-brand,
+        .category-list li .chk-category {
+            width: 1rem;
+            height: 1rem;
+            color: #E4E4E4;
+            border: 0.125rem solid #E4E4E4;
+            border-radius: 0;
+            margin-right: 0.75rem;
+        }
+        .filled-heart{
+                color: orange;
+        }
+    </style>
     <main class="pt-90">
         <section class="shop-main container d-flex pt-4 pt-xl-5">
             <div class="shop-sidebar side-sticky bg-body" id="shopFilter">
@@ -47,13 +52,12 @@
                                     @foreach ($categories as $category)
                                         <li class="list-item">
                                             <span class="menu-link py-1">
-                                                <input type="checkbox" class="chk-category"  name="categories" value="{{ $category->id }}"
-                                                @if(in_array($category->id, explode(',', $f_categories))) checked="checked" @endif
-                                                
-                                                />
+                                                <input type="checkbox" class="chk-category" name="categories"
+                                                    value="{{ $category->id }}"
+                                                    @if (in_array($category->id, explode(',', $f_categories))) checked="checked" @endif />
                                                 {{ $category->name }}
                                             </span>
-                                        <span class="text-right float-end">{{ $category->products->count() }}</span>
+                                            <span class="text-right float-end">{{ $category->products->count() }}</span>
 
 
                                         </li>
@@ -230,7 +234,7 @@
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-price" aria-expanded="true"
                                 aria-controls="accordion-filter-price">
-                               Ціна
+                                Ціна
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -524,15 +528,33 @@
                                         </div>
                                         <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                                     </div>
-
-                                    <button
-                                        class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
+                                    @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
+                                        <button type="submit"
+                                            class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist filled-heart"
+                                            title="Додати в список бажань">
+                                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <use href="#icon_heart" />
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <form method="post" action="{{ route('wishlist.add') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $product->id }}" />
+                                            <input type="hidden" name="name" value="{{ $product->name }}" />
+                                            <input type="hidden" name="price"
+                                                value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}" />
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit"
+                                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                                title="Додати в список бажань">
+                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <use href="#icon_heart" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -590,7 +612,7 @@
                 $("#frmfilters").submit();
             });
 
-               $("input[name='categories']").on("change", function() {
+            $("input[name='categories']").on("change", function() {
                 var categories = "";
                 $("input[name='categories']:checked").each(function() {
                     if (categories == "") {
@@ -602,17 +624,17 @@
                 $("#hdnCategories").val(categories);
                 $("#frmfilters").submit();
             });
-            
-             $(".price-range-slider").on("change", function() {
-               var min = $(this).val().split(",")[0];
-               var max = $(this).val().split(",")[1];
 
-               $("#hdnMinPrice").val(min);
-               $("#hdnMaxPrice").val(max);
-               setTimeout(function() {
-                 $("#frmfilters").submit();   
-         }, 2000);
-    });
+            $(".price-range-slider").on("change", function() {
+                var min = $(this).val().split(",")[0];
+                var max = $(this).val().split(",")[1];
+
+                $("#hdnMinPrice").val(min);
+                $("#hdnMaxPrice").val(max);
+                setTimeout(function() {
+                    $("#frmfilters").submit();
+                }, 2000);
             });
+        });
     </script>
 @endpush

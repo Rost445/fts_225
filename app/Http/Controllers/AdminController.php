@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Coupon;
 
 
 
@@ -496,5 +497,13 @@ public function update_product(Request $request)
 
     return redirect()->route('admin.products')
       ->with('success', 'Продукт успішно видалено.');
+  }
+  public function coupons()
+  {
+    $header_title = "Купони";
+
+    $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(10);
+
+    return view('admin.coupons', compact('header_title', 'coupons'));
   }
 }

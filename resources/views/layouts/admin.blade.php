@@ -132,11 +132,23 @@
                                         <div class="text">Slider</div>
                                     </a>
                                 </li>
-                                <li class="menu-item">
-                                    <a href="{{ route('admin.coupons') }}" class="">
-                                        <div class="icon"><i class="icon-grid"></i></div>
-                                        <div class="text">Купони</div>
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><i class="icon-shopping-cart"></i></div>
+                                        <div class="text">  Купони</div>
                                     </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.coupon.add') }}" class="">
+                                                <div class="text">Додати купон</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.coupons') }}" class="">
+                                                <div class="text">Купони  </div>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
 
                                 <li class="menu-item">

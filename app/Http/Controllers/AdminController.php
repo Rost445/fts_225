@@ -266,7 +266,7 @@ class AdminController extends Controller
       ->cover(124, 124, 'center')
       ->save($thumbPath . '/' . $imageName);
   }
- public function GenerateProductThumbnailImage($image, $imageName)
+  public function GenerateProductThumbnailImage($image, $imageName)
   {
     $destinationPath = public_path('/uploads/products');
 
@@ -359,64 +359,64 @@ class AdminController extends Controller
 
 
 
-public function edit_product($id)
-{
+  public function edit_product($id)
+  {
     $header_title = "Редагувати продукт";
 
     $product = Product::findOrFail($id);
 
     $categories = Category::select('id', 'name')
-        ->orderBy('name')
-        ->get();
+      ->orderBy('name')
+      ->get();
 
     $brands = Brand::select('id', 'name')
-        ->orderBy('name')
-        ->get();
+      ->orderBy('name')
+      ->get();
 
     return view('admin.edit_product', compact(
-        'header_title',
-        'product',
-        'categories',
-        'brands'
+      'header_title',
+      'product',
+      'categories',
+      'brands'
     ));
-}
+  }
 
 
 
-public function update_product(Request $request)
-{
+  public function update_product(Request $request)
+  {
     $request->validate([
-        'name'              => 'required|string|max:255',
-        'slug'              => 'nullable|string|max:255|unique:products,slug,' . $request->id,
-        'category_id'       => 'required|exists:categories,id',
-        'brand_id'          => 'nullable|exists:brands,id',
-        'SKU'               => 'required|string|max:100|unique:products,SKU,' . $request->id,
-        'quantity'          => 'required|integer|min:0',
-        'stock_status'      => 'required|in:instock,outofstock',
-        'regular_price'     => 'required|numeric|min:0',
-        'sale_price'        => 'nullable|numeric|min:0',
-        'short_description' => 'required|string',
-        'description'       => 'required|string',
-        'featured'          => 'boolean',
-        'image'             => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        'images.*'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+      'name'              => 'required|string|max:255',
+      'slug'              => 'nullable|string|max:255|unique:products,slug,' . $request->id,
+      'category_id'       => 'required|exists:categories,id',
+      'brand_id'          => 'nullable|exists:brands,id',
+      'SKU'               => 'required|string|max:100|unique:products,SKU,' . $request->id,
+      'quantity'          => 'required|integer|min:0',
+      'stock_status'      => 'required|in:instock,outofstock',
+      'regular_price'     => 'required|numeric|min:0',
+      'sale_price'        => 'nullable|numeric|min:0',
+      'short_description' => 'required|string',
+      'description'       => 'required|string',
+      'featured'          => 'boolean',
+      'image'             => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+      'images.*'          => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
     ]);
 
     $product = Product::findOrFail($request->id);
 
     $product->fill([
-        'name'              => $request->name,
-        'slug'              => $request->slug ?? Str::slug($request->name),
-        'category_id'       => $request->category_id,
-        'brand_id'          => $request->brand_id,
-        'SKU'               => $request->SKU,
-        'quantity'          => $request->quantity,
-        'stock_status'      => $request->stock_status,
-        'regular_price'     => $request->regular_price,
-        'sale_price'        => $request->sale_price,
-        'short_description' => $request->short_description,
-        'description'       => $request->description,
-        'featured'          => $request->featured ?? 0,
+      'name'              => $request->name,
+      'slug'              => $request->slug ?? Str::slug($request->name),
+      'category_id'       => $request->category_id,
+      'brand_id'          => $request->brand_id,
+      'SKU'               => $request->SKU,
+      'quantity'          => $request->quantity,
+      'stock_status'      => $request->stock_status,
+      'regular_price'     => $request->regular_price,
+      'sale_price'        => $request->sale_price,
+      'short_description' => $request->short_description,
+      'description'       => $request->description,
+      'featured'          => $request->featured ?? 0,
     ]);
 
     $timestamp = now()->timestamp;
@@ -424,51 +424,51 @@ public function update_product(Request $request)
     /* ===== Головне зображення ===== */
     if ($request->hasFile('image')) {
 
-        if ($product->image) {
-            File::delete(public_path('uploads/products/' . $product->image));
-            File::delete(public_path('uploads/products/thumbnails/' . $product->image));
-        }
+      if ($product->image) {
+        File::delete(public_path('uploads/products/' . $product->image));
+        File::delete(public_path('uploads/products/thumbnails/' . $product->image));
+      }
 
-        $image     = $request->file('image');
-        $imageName = $timestamp . '.' . $image->getClientOriginalExtension();
+      $image     = $request->file('image');
+      $imageName = $timestamp . '.' . $image->getClientOriginalExtension();
 
-        $this->GenerateProductImages($image, $imageName);
+      $this->GenerateProductImages($image, $imageName);
 
-        $product->image = $imageName;
+      $product->image = $imageName;
     }
 
     /* ===== Галерея ===== */
     if ($request->hasFile('images')) {
 
-        if ($product->images) {
-            foreach (explode(',', $product->images) as $oldImage) {
-                File::delete(public_path('uploads/products/' . $oldImage));
-                File::delete(public_path('uploads/products/thumbnails/' . $oldImage));
-            }
+      if ($product->images) {
+        foreach (explode(',', $product->images) as $oldImage) {
+          File::delete(public_path('uploads/products/' . $oldImage));
+          File::delete(public_path('uploads/products/thumbnails/' . $oldImage));
         }
+      }
 
-        $gallery = [];
-        $counter = 1;
+      $gallery = [];
+      $counter = 1;
 
-        foreach ($request->file('images') as $file) {
+      foreach ($request->file('images') as $file) {
 
-            $fileName = $timestamp . '-' . $counter . '.' . $file->getClientOriginalExtension();
+        $fileName = $timestamp . '-' . $counter . '.' . $file->getClientOriginalExtension();
 
-            $this->GenerateProductImages($file, $fileName);
+        $this->GenerateProductImages($file, $fileName);
 
-            $gallery[] = $fileName;
-            $counter++;
-        }
+        $gallery[] = $fileName;
+        $counter++;
+      }
 
-        $product->images = implode(',', $gallery);
+      $product->images = implode(',', $gallery);
     }
 
     $product->save();
 
     return redirect()
-        ->route('admin.products')
-        ->with('success', 'Продукт успішно оновлено');
-}
+      ->route('admin.products')
+      ->with('success', 'Продукт успішно оновлено');
+  }
 
 
 
@@ -481,16 +481,16 @@ public function update_product(Request $request)
       File::delete(public_path('uploads/products/' . $product->image));
     }
 
-     if (File::exists(public_path('uploads/products/thumbnails' . $product->image))) {
+    if (File::exists(public_path('uploads/products/thumbnails' . $product->image))) {
       File::delete(public_path('uploads/products/thumbnails' . $product->image));
     }
 
-     if ($product->images) {
-            foreach (explode(',', $product->images) as $oldImage) {
-                File::delete(public_path('uploads/products/' . $oldImage));
-                File::delete(public_path('uploads/products/thumbnails/' . $oldImage));
-            }
-        }
+    if ($product->images) {
+      foreach (explode(',', $product->images) as $oldImage) {
+        File::delete(public_path('uploads/products/' . $oldImage));
+        File::delete(public_path('uploads/products/thumbnails/' . $oldImage));
+      }
+    }
 
 
     $product->delete();
@@ -502,8 +502,74 @@ public function update_product(Request $request)
   {
     $header_title = "Купони";
 
-    $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(10);
+    $coupons = Coupon::orderBy('expire_date', 'DESC')->paginate(10);
 
     return view('admin.coupons', compact('header_title', 'coupons'));
+  }
+
+  public function add_coupon()
+  {
+    $header_title = "Додати купон";
+    return view('admin.add_coupon', compact('header_title'));
+  }
+
+  public function store_coupon(Request $request)
+  {
+    $request->validate([
+      'code'       => 'required',
+      'type'       => 'required',
+      'value'      => 'required|numeric',
+      'cart_value' => 'required|numeric',
+      'expire_date' => 'required|date|after_or_equal:today',
+    ]);
+
+    $coupon = new Coupon();
+    $coupon->code = $request->code;
+    $coupon->type = $request->type;
+    $coupon->value = $request->value;
+    $coupon->cart_value = $request->cart_value;
+    $coupon->expire_date = $request->expire_date;
+    $coupon->save();
+
+    return redirect()->route('admin.coupons')
+      ->with('success', 'Купон успішно додано.');
+  }
+
+public function edit_coupon($id)
+  {
+    $header_title = "Редагувати купон";
+    $coupon = Coupon::findOrFail($id);
+    return view('admin.edit_coupon', compact('coupon', 'header_title'));
+  }
+
+  public function update_coupon(Request $request)
+  {
+    $request->validate([
+      'code'       => 'required',
+      'type'       => 'required',
+      'value'      => 'required|numeric',
+      'cart_value' => 'required|numeric',
+      'expire_date' => 'required|date|after_or_equal:today',
+    ]);
+
+    $coupon = Coupon::findOrFail($request->id);
+    $coupon->code = $request->code;
+    $coupon->type = $request->type;
+    $coupon->value = $request->value;
+    $coupon->cart_value = $request->cart_value;
+    $coupon->expire_date = $request->expire_date;
+    $coupon->save();
+
+    return redirect()->route('admin.coupons')
+      ->with('success', 'Купон успішно оновлено.');
+  }
+
+  public function delete_coupon($id)
+  {
+    $coupon = Coupon::findOrFail($id);
+    $coupon->delete();
+
+    return redirect()->route('admin.coupons')
+      ->with('success', 'Купон успішно видалено.');
   }
 }

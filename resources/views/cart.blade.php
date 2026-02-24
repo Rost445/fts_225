@@ -104,14 +104,26 @@
                             </tbody>
                         </table>
                         <div class="cart-table-footer">
-                            <form action="{{ route('cart.apply.coupon') }}" method="post"
+                            @if(!session()->has('coupon'))
+                             <form action="{{ route('cart.apply.coupon') }}" method="post"
                                 class="position-relative bg-body">
                                 @csrf
-                                <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
+                                <input class="form-control" type="text" name="coupon_code" placeholder="Код купона"
+                                    value="">
+                                <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
+                                    value="Застосувати купон">
+                            </form>
+                            @else
+                            <form action="{{ route('cart.remove.coupon') }}" method="post"
+                                class="position-relative bg-body">
+                                @csrf
+                                @method('DELETE')
+                                <input class="form-control" type="text" name="coupon_code" placeholder="Код купона"
                                     value="@if (session()->has('coupon')) {{ session()->get('coupon')['code'] }} Застосовується! @endif">
                                 <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                                    value="APPLY COUPON">
+                                    value="Видалити купон">
                             </form>
+                            @endif
                             <form action="{{ route('cart.empty') }}" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -156,7 +168,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <th>VAT</th>
+                                                <th>ПДВ</th>
                                                 <td>{{ session()->get('discounts')['tax'] }}</td>
                                             </tr>
                                             <tr>
@@ -179,7 +191,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>VAT</th>
+                                            <th>ПДВ</th>
                                             <td>{{ Cart::instance('cart')->tax() }}</td>
                                         </tr>
                                         <tr>

@@ -110,4 +110,11 @@ class CartController extends Controller
          'total' => number_format(floatval($totalAfterDiscount), 2, '.', '')
       ]);
    }
+
+   public function remove_coupon()
+   {
+      session()->forget('coupon');
+      session()->forget('discounts');
+      return redirect()->back()->with('success_message', 'Купон успішно видалений!');
+   }
 }

@@ -151,15 +151,15 @@
                                         <tbody>
                                             <tr>
                                                 <th>Проміжний підсумок</th>
-                                                <td>{{ Cart::instance('cart')->subtotal() }}</td>
+                                                <td class="text-right">{{ Cart::instance('cart')->subtotal() }} $</td>
                                             </tr>
                                             <tr>
                                                 <th>Знижка {{ session()->get('coupon')['code'] }}</th>
-                                                <td>{{ session()->get('discounts')['discount'] }}</td>
+                                                <td class="text-right">{{ session()->get('discounts')['discount'] }} $</td>
                                             </tr>
                                             <tr>
                                                 <th>Проміжний підсумок <br> після знижки</th>
-                                                <td>{{ session()->get('discounts')['subtotal'] }}</td>
+                                                <td class="text-right">{{ session()->get('discounts')['subtotal'] }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Доставка</th>
@@ -169,11 +169,11 @@
                                             </tr>
                                             <tr>
                                                 <th>ПДВ</th>
-                                                <td>{{ session()->get('discounts')['tax'] }}</td>
+                                                <td class="text-right">{{ session()->get('discounts')['tax'] }} $</td>
                                             </tr>
                                             <tr>
                                                 <th>Всього</th>
-                                                <td>{{ session()->get('discounts')['total'] }}</td>
+                                                <td class="text-right">{{ session()->get('discounts')['total'] }} $</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -182,7 +182,7 @@
                                     <tbody>
                                         <tr>
                                             <th>Проміжний підсумок</th>
-                                            <td>{{ Cart::instance('cart')->subtotal() }}</td>
+                                            <td class="text-right">{{ Cart::instance('cart')->subtotal() }} $</td>
                                         </tr>
                                         <tr>
                                             <th>Доставка</th>
@@ -192,11 +192,11 @@
                                         </tr>
                                         <tr>
                                             <th>ПДВ</th>
-                                            <td>{{ Cart::instance('cart')->tax() }}</td>
+                                            <td class="text-right">{{ Cart::instance('cart')->tax() }} $</td>
                                         </tr>
                                         <tr>
                                             <th>Всього</th>
-                                            <td>{{ Cart::instance('cart')->total() }}</td>
+                                            <td class="text-right">{{ Cart::instance('cart')->total() }} $</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -204,7 +204,7 @@
                             </div>
                             <div class="mobile_fixed-btn_wrapper">
                                 <div class="button-wrapper container">
-                                    <a href="checkout.html" class="btn btn-primary btn-checkout">PROCEED TO CHECKOUT</a>
+                                    <a href="{{ route('cart.checkout') }}" class="btn btn-primary btn-checkout">ПЕРЕЙТИ ДО ОФОРМЛЕННЯ ЗАМОВЛЕННЯ</a>
                                 </div>
                             </div>
                         </div>

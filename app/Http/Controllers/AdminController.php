@@ -12,8 +12,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\Order;
-
-
+use App\Models\OrderItem;
+use App\Models\Transaction;
 
 class AdminController extends Controller
 {
@@ -579,6 +579,15 @@ public function edit_coupon($id)
     $header_title = "Замовлення";
     $orders = Order::orderBy('created_at', 'DESC')->paginate(10);
     return view('admin.orders', compact('header_title', 'orders'));
+  }
+
+  public function order_details($order_id)
+  {
+    $header_title = "Деталі замовлення";
+    $order = Order::findOrFail($order_id);
+    $orderItems = OrderItem::where('order_id', $order_id)->orderBy('id')->paginate(10);
+    $transaction = Transaction::where('order_id', $order_id)->first();
+    return view('admin.order_details', compact('header_title', 'order', 'orderItems', 'transaction'));
   }
 
 }

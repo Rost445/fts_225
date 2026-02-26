@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.4:3306
--- Час створення: Лют 20 2026 р., 09:51
+-- Час створення: Лют 26 2026 р., 12:46
 -- Версія сервера: 8.4.6
 -- Версія PHP: 8.4.13
 
@@ -20,6 +20,38 @@ SET time_zone = "+00:00";
 --
 -- База даних: `fts_2025`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `locality` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `landmark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'home',
+  `isdefault` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `user_id`, `name`, `phone`, `locality`, `address`, `city`, `state`, `country`, `landmark`, `zip`, `type`, `isdefault`, `created_at`, `updated_at`) VALUES
+(2, 4, 'Janna Pate', '+1 (924) 548-6911', 'Laboriosam pariatur', 'Minima architecto bl', 'Omnis reiciendis et', NULL, 'Україна', 'Libero commodo omnis', '71484', 'home', 1, '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
+(3, 5, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 1, '2026-02-26 08:05:03', '2026-02-26 08:05:03');
 
 -- --------------------------------------------------------
 
@@ -110,6 +142,14 @@ CREATE TABLE `coupons` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Дамп даних таблиці `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `code`, `type`, `value`, `cart_value`, `expire_date`, `created_at`, `updated_at`) VALUES
+(4, 'OFF100', 'percent', 10.00, 1000.00, '2026-02-28', '2026-02-23 07:52:28', '2026-02-23 07:59:05'),
+(5, 'OFF500', 'fixed', 500.00, 1000.00, '2026-03-01', '2026-02-24 11:32:38', '2026-02-24 11:32:38');
+
 -- --------------------------------------------------------
 
 --
@@ -184,7 +224,85 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2025_12_23_070623_create_brands_table', 2),
 (8, '2025_12_29_095611_create_categories_table', 3),
 (9, '2025_12_29_122108_create_products_table', 4),
-(10, '2026_02_20_070720_create_coupons_table', 5);
+(10, '2026_02_20_070720_create_coupons_table', 5),
+(11, '2026_02_25_072315_create_orders_table', 6),
+(12, '2026_02_25_072342_create_addresses_table', 6),
+(13, '2026_02_25_072419_create_transactions_table', 6),
+(14, '2026_02_25_083322_create_order_items_table', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `subtotal` decimal(8,2) NOT NULL,
+  `discount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `tax` decimal(8,2) NOT NULL,
+  `total` decimal(8,2) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `locality` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `landmark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'home',
+  `status` enum('ordered','delivered','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ordered',
+  `is_shipping_differnt` tinyint(1) NOT NULL DEFAULT '0',
+  `delivered_date` date DEFAULT NULL,
+  `cancelled_date` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `discount`, `tax`, `total`, `name`, `phone`, `locality`, `address`, `city`, `state`, `country`, `landmark`, `zip`, `type`, `status`, `is_shipping_differnt`, `delivered_date`, `cancelled_date`, `created_at`, `updated_at`) VALUES
+(3, 4, 1070.00, 0.00, 21.40, 1091.40, 'Janna Pate', '+1 (924) 548-6911', 'Laboriosam pariatur', 'Minima architecto bl', 'Omnis reiciendis et', NULL, 'Україна', 'Libero commodo omnis', '71484', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
+(4, 5, 1230.00, 0.00, 24.60, 1254.60, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:05:03', '2026-02-26 08:05:03'),
+(5, 5, 1250.00, 0.00, 25.00, 1275.00, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
+(6, 5, 1230.00, 0.00, 24.60, 1254.60, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:25:20', '2026-02-26 08:25:20'),
+(7, 5, 1980.00, 500.00, 39.60, 2019.60, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:39:39', '2026-02-26 08:39:39');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` bigint UNSIGNED NOT NULL,
+  `product_id` bigint UNSIGNED NOT NULL,
+  `order_id` bigint UNSIGNED NOT NULL,
+  `price` decimal(8,2) NOT NULL,
+  `quantity` int NOT NULL,
+  `options` longtext COLLATE utf8mb4_unicode_ci,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `product_id`, `order_id`, `price`, `quantity`, `options`, `status`, `created_at`, `updated_at`) VALUES
+(3, 15, 3, 1070.00, 1, NULL, 0, '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
+(4, 16, 4, 1230.00, 1, NULL, 0, '2026-02-26 08:05:03', '2026-02-26 08:05:03'),
+(5, 17, 5, 180.00, 1, NULL, 0, '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
+(6, 15, 5, 1070.00, 1, NULL, 0, '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
+(7, 16, 6, 1230.00, 1, NULL, 0, '2026-02-26 08:25:20', '2026-02-26 08:25:20'),
+(8, 16, 7, 1230.00, 1, NULL, 0, '2026-02-26 08:39:39', '2026-02-26 08:39:39'),
+(9, 15, 7, 1070.00, 1, NULL, 0, '2026-02-26 08:39:39', '2026-02-26 08:39:39'),
+(10, 17, 7, 180.00, 1, NULL, 0, '2026-02-26 08:39:39', '2026-02-26 08:39:39');
 
 -- --------------------------------------------------------
 
@@ -254,8 +372,34 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('HhpQUrFJwLO9S5VtJu5hg5KiL8LcXaOTKoww4RLw', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoibTdKV3BSazFMOTZXOFpuUFE2MkdGVkc4c2dxcjFkUXJWUW40VlhkZyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzU6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9jb3Vwb25zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo0OiJjYXJ0IjthOjI6e3M6ODoid2lzaGxpc3QiO086Mjk6IklsbHVtaW5hdGVcU3VwcG9ydFxDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NDoiY2FydCI7TzoyOToiSWxsdW1pbmF0ZVxTdXBwb3J0XENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7czozMjoiYTRlOTM1YTc1ODEyNjY3YTg0OWYzZGZlZjFjNTk0MGIiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiJhNGU5MzVhNzU4MTI2NjdhODQ5ZjNkZmVmMWM1OTQwYiI7czoyOiJpZCI7czoyOiIxNyI7czozOiJxdHkiO3M6MToiMSI7czo0OiJuYW1lIjtzOjc6IlRFUk1PIDEiO3M6NToicHJpY2UiO2Q6MTgwO3M6Nzoib3B0aW9ucyI7Tzo0MjoiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW1PcHRpb25zIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTI6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBhc3NvY2lhdGVkTW9kZWwiO3M6MTg6IkFwcFxNb2RlbHNcUHJvZHVjdCI7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAHRheFJhdGUiO2k6MjE7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGlzU2F2ZWQiO2I6MDt9fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzcxNTcyODkwO319', 1771573855),
-('PSBeDPa88Ls3RsUYjGY83JpywHbdHpeEgIWnH98z', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia2ZxQlBvaG80RjNRaWxPM21CZ0dBdVlaRFU1VlllWm1IVjQyTFdJeSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9jYXJ0Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo0OiJjYXJ0IjthOjM6e3M6ODoid2lzaGxpc3QiO086Mjk6IklsbHVtaW5hdGVcU3VwcG9ydFxDb2xsZWN0aW9uIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NzoiZGVmYXVsdCI7TzoyOToiSWxsdW1pbmF0ZVxTdXBwb3J0XENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6Mjp7czozMjoiYTRlOTM1YTc1ODEyNjY3YTg0OWYzZGZlZjFjNTk0MGIiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiJhNGU5MzVhNzU4MTI2NjdhODQ5ZjNkZmVmMWM1OTQwYiI7czoyOiJpZCI7czoyOiIxNyI7czozOiJxdHkiO3M6MToiMSI7czo0OiJuYW1lIjtzOjc6IlRFUk1PIDEiO3M6NToicHJpY2UiO2Q6MTgwO3M6Nzoib3B0aW9ucyI7Tzo0MjoiU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW1PcHRpb25zIjoyOntzOjg6IgAqAGl0ZW1zIjthOjA6e31zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NTI6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBhc3NvY2lhdGVkTW9kZWwiO3M6MTg6IkFwcFxNb2RlbHNcUHJvZHVjdCI7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAHRheFJhdGUiO2k6MjE7czo0NDoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGlzU2F2ZWQiO2I6MDt9czozMjoiMzAzYTdmMDIzNjRmMWU5MmRjNjBjMDVjOWIxNTIzOWYiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiIzMDNhN2YwMjM2NGYxZTkyZGM2MGMwNWM5YjE1MjM5ZiI7czoyOiJpZCI7czoyOiIxOCI7czozOiJxdHkiO3M6MToiMSI7czo0OiJuYW1lIjtzOjQ1OiJHLTQxMCB8INCc0L7Qt9Cw0ZfRh9C90LAg0YjRgtGD0LrQsNGC0YPRgNC60LAiO3M6NToicHJpY2UiO2Q6MTcwMDtzOjc6Im9wdGlvbnMiO086NDI6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtT3B0aW9ucyI6Mjp7czo4OiIAKgBpdGVtcyI7YTowOnt9czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO31zOjUyOiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AYXNzb2NpYXRlZE1vZGVsIjtzOjE4OiJBcHBcTW9kZWxzXFByb2R1Y3QiO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQB0YXhSYXRlIjtpOjIxO3M6NDQ6IgBTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbQBpc1NhdmVkIjtiOjA7fX1zOjI4OiIAKgBlc2NhcGVXaGVuQ2FzdGluZ1RvU3RyaW5nIjtiOjA7fXM6NDoiY2FydCI7TzoyOToiSWxsdW1pbmF0ZVxTdXBwb3J0XENvbGxlY3Rpb24iOjI6e3M6ODoiACoAaXRlbXMiO2E6MTp7czozMjoiYWI0NzRhNzI0NzVlYTZlYTU0ZDIwODVlNWNkYWNjMjgiO086MzU6IlN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtIjo5OntzOjU6InJvd0lkIjtzOjMyOiJhYjQ3NGE3MjQ3NWVhNmVhNTRkMjA4NWU1Y2RhY2MyOCI7czoyOiJpZCI7czoyOiIxNSI7czozOiJxdHkiO3M6MToiMSI7czo0OiJuYW1lIjtzOjU6IkVQUyBTIjtzOjU6InByaWNlIjtkOjEwNzA7czo3OiJvcHRpb25zIjtPOjQyOiJTdXJmc2lkZW1lZGlhXFNob3BwaW5nY2FydFxDYXJ0SXRlbU9wdGlvbnMiOjI6e3M6ODoiACoAaXRlbXMiO2E6MDp7fXM6Mjg6IgAqAGVzY2FwZVdoZW5DYXN0aW5nVG9TdHJpbmciO2I6MDt9czo1MjoiAFN1cmZzaWRlbWVkaWFcU2hvcHBpbmdjYXJ0XENhcnRJdGVtAGFzc29jaWF0ZWRNb2RlbCI7czoxODoiQXBwXE1vZGVsc1xQcm9kdWN0IjtzOjQ0OiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AdGF4UmF0ZSI7aToyMTtzOjQ0OiIAU3VyZnNpZGVtZWRpYVxTaG9wcGluZ2NhcnRcQ2FydEl0ZW0AaXNTYXZlZCI7YjowO319czoyODoiACoAZXNjYXBlV2hlbkNhc3RpbmdUb1N0cmluZyI7YjowO319fQ==', 1771512297);
+('2N5TJLvm37DuT72dJGuDOTmEin1CUemYigVURyaZ', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiUDQxWko3WDZPREM3N1JLSVVWZ2ZGa3Vmb0F4dVo3THZDRFVueGpXQiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vcmRlci1jb25maXJtYXRpb24iO31zOjQ6ImNhcnQiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7czo4OiJvcmRlcl9pZCI7aTo3O30=', 1772102689);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `transactions`
+--
+
+CREATE TABLE `transactions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `order_id` bigint UNSIGNED NOT NULL,
+  `mode` enum('cod','card','paypal') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('pending','approved','declined','refunded') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `transactions`
+--
+
+INSERT INTO `transactions` (`id`, `user_id`, `order_id`, `mode`, `status`, `created_at`, `updated_at`) VALUES
+(3, 4, 3, 'paypal', 'pending', '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
+(4, 5, 4, 'paypal', 'pending', '2026-02-26 08:05:03', '2026-02-26 08:05:03'),
+(5, 5, 5, 'card', 'pending', '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
+(6, 5, 6, 'card', 'pending', '2026-02-26 08:25:20', '2026-02-26 08:25:20'),
+(7, 5, 7, 'cod', 'pending', '2026-02-26 08:39:39', '2026-02-26 08:39:39');
 
 -- --------------------------------------------------------
 
@@ -281,11 +425,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `mobile`, `email_verified_at`, `password`, `utype`, `remember_token`, `created_at`, `updated_at`) VALUES
-(4, 'Chaim Riddle', 'luwybod@mailinator.com', '0660173965', '2025-12-23 14:04:24', '$2y$12$kGDizaTuJor.9tii0O1dWuIWQAmndqrukAh.JDLh/QX8kgDHoelXm', 'ADM', NULL, '2025-12-23 12:03:43', '2025-12-23 12:03:43');
+(4, 'Chaim Riddle', 'luwybod@mailinator.com', '0660173965', '2025-12-23 14:04:24', '$2y$12$kGDizaTuJor.9tii0O1dWuIWQAmndqrukAh.JDLh/QX8kgDHoelXm', 'ADM', NULL, '2025-12-23 12:03:43', '2025-12-23 12:03:43'),
+(5, 'Aline Palmer', 'ruzubed@mailinator.com', '17669045656', '2026-02-26 10:03:58', '$2y$12$Dr2pu0v/5Z37rhpQEIkVG./i9jzqse2K7LkbTGqgKhaIO/jYvWNOa', 'USR', NULL, '2026-02-26 08:02:51', '2026-02-26 08:02:51');
 
 --
 -- Індекси збережених таблиць
 --
+
+--
+-- Індекси таблиці `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `addresses_user_id_foreign` (`user_id`);
 
 --
 -- Індекси таблиці `brands`
@@ -345,6 +497,21 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Індекси таблиці `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `orders_user_id_foreign` (`user_id`);
+
+--
+-- Індекси таблиці `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_items_product_id_foreign` (`product_id`),
+  ADD KEY `order_items_order_id_foreign` (`order_id`);
+
+--
 -- Індекси таблиці `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -369,6 +536,14 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Індекси таблиці `transactions`
+--
+ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transactions_user_id_foreign` (`user_id`),
+  ADD KEY `transactions_order_id_foreign` (`order_id`);
+
+--
 -- Індекси таблиці `users`
 --
 ALTER TABLE `users`
@@ -379,6 +554,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT для збережених таблиць
 --
+
+--
+-- AUTO_INCREMENT для таблиці `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблиці `brands`
@@ -396,7 +577,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT для таблиці `coupons`
 --
 ALTER TABLE `coupons`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблиці `failed_jobs`
@@ -414,7 +595,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT для таблиці `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT для таблиці `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT для таблиці `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблиці `products`
@@ -423,14 +616,39 @@ ALTER TABLE `products`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT для таблиці `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT для таблиці `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Обмеження зовнішнього ключа збережених таблиць
 --
+
+--
+-- Обмеження зовнішнього ключа таблиці `addresses`
+--
+ALTER TABLE `addresses`
+  ADD CONSTRAINT `addresses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Обмеження зовнішнього ключа таблиці `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Обмеження зовнішнього ключа таблиці `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Обмеження зовнішнього ключа таблиці `products`
@@ -438,6 +656,13 @@ ALTER TABLE `users`
 ALTER TABLE `products`
   ADD CONSTRAINT `products_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `products_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
+
+--
+-- Обмеження зовнішнього ключа таблиці `transactions`
+--
+ALTER TABLE `transactions`
+  ADD CONSTRAINT `transactions_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transactions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

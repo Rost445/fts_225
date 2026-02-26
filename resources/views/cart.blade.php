@@ -9,7 +9,7 @@
                 <a href="javascript:void(0)" class="checkout-steps__item active">
                     <span class="checkout-steps__item-number">01</span>
                     <span class="checkout-steps__item-title">
-                        <span>Сумка для покупок</span>
+                        <span>Кошик для покупок</span>
                         <em>Керуйте своїм списком предметів</em>
                     </span>
                 </a>

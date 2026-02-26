@@ -11,6 +11,7 @@ use Intervention\Image\Laravel\Facades\Image;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Coupon;
+use App\Models\Order;
 
 
 
@@ -572,4 +573,12 @@ public function edit_coupon($id)
     return redirect()->route('admin.coupons')
       ->with('success', 'Купон успішно видалено.');
   }
+
+  public function orders()
+  {
+    $header_title = "Замовлення";
+    $orders = Order::orderBy('created_at', 'DESC')->paginate(10);
+    return view('admin.orders', compact('header_title', 'orders'));
+  }
+
 }

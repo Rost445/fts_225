@@ -13,4 +13,13 @@ class Transaction extends Model
   {
       return $this->belongsTo(Order::class);
   }
+  public function getModeLabelAttribute(): string
+{
+    return match ($this->mode) {
+        'card'   => 'Кредитна картка',
+        'cod'    => 'Післяплата',
+        'paypal' => 'PayPal',
+        default  => '—',
+    };
+}
 }

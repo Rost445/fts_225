@@ -27,7 +27,8 @@
                     </span>
                 </a>
             </div>
-            <form name="checkout-form" action="">
+            <form name="checkout-form" action="{{ route('cart.place.an.order') }}" method="POST">
+                @csrf
                 <div class="checkout-form">
                     <div class="billing-info__wrapper">
                         <div class="row">
@@ -51,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                  
                 @else
                     <div class="row mt-5">
                         <div class="col-md-6">
@@ -229,9 +230,9 @@
                         <div class="checkout__payment-methods">
                             <div class="form-check">
                                 <input class="form-check-input form-check-input_fill" type="radio"
-                                    name="checkout_payment_method" id="checkout_payment_method_1" checked>
+                                   name="mode" id="checkout_payment_method_1" checked value="card">
                                 <label class="form-check-label" for="checkout_payment_method_1">
-                                    Прямий банківський переказ
+                                   Кредитна картка / Дебетова картка
                                     <p class="option-detail">
                                         Зробіть свій платіж безпосередньо в наш банківський рахунок. Будь ласка,
                                         використовуйте свій номер замовлення як референс для оплати.
@@ -240,22 +241,8 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input form-check-input_fill" type="radio"
-                                    name="checkout_payment_method" id="checkout_payment_method_2">
-                                <label class="form-check-label" for="checkout_payment_method_2">
-                                    Перевірка платежів
-                                    <p class="option-detail">
-                                        Phasellus sed volutpat orci. Fusce eget lore mauris vehicula elementum gravida nec
-                                        dui. Aenean
-                                        aliquam varius ipsum, non ultricies tellus sodales eu. Donec dignissim viverra nunc,
-                                        ut aliquet
-                                        magna posuere eget.
-                                    </p>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input form-check-input_fill" type="radio"
-                                    name="checkout_payment_method" id="checkout_payment_method_3">
+                                <input class="form-check-input form-check-input_fill" type="radio" name="mode"
+                                     id="checkout_payment_method_3" value="cod">
                                 <label class="form-check-label" for="checkout_payment_method_3">
                                     Наложений платіж
                                     <p class="option-detail">
@@ -269,7 +256,7 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input form-check-input_fill" type="radio"
-                                    name="checkout_payment_method" id="checkout_payment_method_4">
+                                    name="mode" id="checkout_payment_method_4" value="paypal">
                                 <label class="form-check-label" for="checkout_payment_method_4">
                                     Paypal
                                     <p class="option-detail">

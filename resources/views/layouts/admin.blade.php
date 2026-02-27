@@ -111,7 +111,7 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-file-plus"></i></div>
-                                        <div class="text">Order</div>
+                                        <div class="text">Замовлення</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">

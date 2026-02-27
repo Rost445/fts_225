@@ -52,14 +52,14 @@
                             <td>{{ $order->delivery_date }}</td>
                             <td>{{ $order->cancelled_date }}</td>
                             <td colspan="5">
-                                @if ($order->status == 'delivered')
-                                    <span class="badge badge-success">Доставлено</span>
-                                @elseif($order->status == 'pending')
-                                    <span class="badge badge-warning">В очікуванні</span>
-                                @elseif($order->status == 'canceled')
-                                    <span class="badge badge-danger">Скасовано</span>
+                                @if ($order->status_ua == 'delivered')
+                                    <span class="btn btn-lg btn-success">Доставлено</span>
+                                @elseif($order->status_ua == 'pending')
+                                    <span class="btn btn-lg btn-info">В очікуванні</span>
+                                @elseif($order->status_ua == 'canceled')
+                                    <span class=" btn btn-lg btn-danger">Скасовано</span>
                                 @else
-                                    <span class="badge badge-secondary">{{ ucfirst($order->status) }}</span>
+                                    <span class="btn btn-lg btn-warning ">{{ ucfirst($order->status_ua) }}</span>
                                 @endif
                             </td>
                         </tr>
@@ -69,7 +69,7 @@
                 <div class="wg-box">
                     <div class="flex items-center justify-between gap10 flex-wrap">
                         <div class="wg-filter flex-grow">
-                            <h5>Ordered Items</h5>
+                            <h5>Замовлені товари</h5>
                         </div>
 
                     </div>
@@ -102,8 +102,8 @@
                                                     target="_blank" class="body-title-2">{{ $item->product->name }}</a>
                                             </div>
                                         </td>
-                                        <td class="text-center">${{ number_format($item->price) }}</td>
-                                        <td class="text-center">{{ $item->product->quantity }}</td>
+                                        <td class="text-center">{{ number_format($item->price) }} ₴</td>
+                                        <td class="text-center">{{ $item->quantity }}</td>
                                         <td class="text-center">{{ $item->product->SKU }}</td>
                                         <td class="text-center">{{ $item->product->category->name }}</td>
                                         <td class="text-center">{{ $item->product->brand->name }}</td>
@@ -112,11 +112,14 @@
                                             {{ $item->rstatus == 0 ? 'Не повернуто' : 'Повернуто' }}
                                         </td>
                                         <td class="text-center">
-                                            <div class="list-icon-function view-icon">
-                                                <div class="item eye">
-                                                    <i class="icon-eye"></i>
+                                            <a
+                                                href="{{ route('admin.order.details', ['order_id' => $order->id]) }}">
+                                                <div class="list-icon-function view-icon">
+                                                    <div class="item eye">
+                                                        <i class="icon-eye"></i>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -129,27 +132,59 @@
                         {{ $orderItems->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
-                  <div class="wg-box mt-5">
-                                    <h5>Адреса доставки</h5>
-                                    <div class="my-account__address-item col-md-6">
-                                        <div class="my-account__address-item__detail">
-                                            <p>{{ $order->name }}</p>
-                                            <p>{{ $order->address }}</p>
-                                            <p>{{ $order->city }}, {{ $order->state }}</p>
-                                            <p>{{ $order->country }}</p>
-                                            <p>{{ $order->zip }}</p>
-                                            <p>{{ $order->landmark }}</p>
-                                            <br>
-                                            <p>Мобільний : {{ $order->phone }}</p>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="wg-box mt-5">
+                    <h5>Адреса доставки</h5>
+                    <div class="my-account__address-item col-md-6">
+                        <div class="my-account__address-item__detail">
+                            <p>{{ $order->name }}</p>
+                            <p>{{ $order->address }}</p>
+                            <p>{{ $order->city }}, {{ $order->state }}</p>
+                            <p>{{ $order->country }}</p>
+                            <p>{{ $order->zip }}</p>
+                            <p>{{ $order->landmark }}</p>
+                            <br>
+                            <p>Мобільний : {{ $order->phone }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wg-box mt-5">
+                    <h5>Транзакції</h5>
+                    <table class="table table-striped table-bordered table-transaction">
+                        <tbody>
+                            <tr>
+                                <th> Проміжний підсумок</th>
+                                <td>{{ number_format($order->subtotal, 2) }} ₴</td>
+                                <th>ПДВ</th>
+                                <td>{{ number_format($order->tax, 2) }} ₴</td>
+                                <th>Знижка</th>
+                                <td>{{ number_format($order->discount, 2) }} ₴</td>
+                            </tr>
+                            <tr>
+                                <th>Всього</th>
+                                <td>{{ number_format($order->total, 2) }} ₴</td>
+                                <th>Метод оплати</th>
+                                <td>{{ $order->payment_mode }}</td>
+                                <th>Статус замовлення</th>
+                                <td>
+                                    @if ($transaction->status_ua == 'затверджено')
+                                        <span class="btn btn-lg btn-success">Затверджено</span>
+                                    @elseif($transaction->status_ua == 'відхилено')
+                                        <span class="btn btn-lg btn-danger">Відхилено</span>
+                                  
+                                    @elseif($transaction->status_ua == 'повернуто')
+                                        <span class="btn btn-lg btn-secondary">Повернуто</span>
+                                    @else
+                                        <span class="btn btn-lg btn-warning">{{ ucfirst($transaction->status_ua) }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
-
-
-
     </div>
     </div>
 @endsection

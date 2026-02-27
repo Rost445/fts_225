@@ -22,4 +22,15 @@ class Transaction extends Model
         default  => '—',
     };
 }
+public function getStatusUaAttribute()
+{
+    return [
+        'approved'  => 'Затверджено',
+        'declined'  => 'Відхилено',
+        'pending'   => 'В очікуванні',
+        'refunded'  => 'Повернуто',
+    ][$this->status] ?? $this->status;
+}
+
+
 }

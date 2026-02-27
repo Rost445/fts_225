@@ -22,4 +22,15 @@ class Order extends Model
    {
        return $this->hasOne(Transaction::class);
    }
+
+   public function getStatusUaAttribute()
+{
+    return [
+        'ordered'    => 'Замовлено',
+        'processing' => 'В обробці',
+        'shipped'    => 'Відправлено',
+        'completed'  => 'Завершено',
+        'canceled'   => 'Скасовано',
+    ][$this->status] ?? $this->status;
+}
 }

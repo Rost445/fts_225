@@ -53,13 +53,13 @@
                             <td>{{ $order->cancelled_date }}</td>
                             <td colspan="5">
                                 @if ($order->status_ua == 'delivered')
-                                    <span class="btn btn-lg btn-success">Доставлено</span>
+                                    <span class="badge bg-success">Доставлено</span>
                                 @elseif($order->status_ua == 'pending')
-                                    <span class="btn btn-lg btn-info">В очікуванні</span>
+                                    <span class="badge bg-info">В очікуванні</span>
                                 @elseif($order->status_ua == 'canceled')
-                                    <span class=" btn btn-lg btn-danger">Скасовано</span>
+                                    <span class="badge bg-danger">Скасовано</span>
                                 @else
-                                    <span class="btn btn-lg btn-warning ">{{ ucfirst($order->status_ua) }}</span>
+                                    <span class="badge bg-warning">{{ ucfirst($order->status_ua) }}</span>
                                 @endif
                             </td>
                         </tr>
@@ -168,14 +168,14 @@
                                 <th>Статус замовлення</th>
                                 <td>
                                     @if ($transaction->status_ua == 'затверджено')
-                                        <span class="btn btn-lg btn-success">Затверджено</span>
+                                        <span class="badge bg-success">Затверджено</span>
                                     @elseif($transaction->status_ua == 'відхилено')
-                                        <span class="btn btn-lg btn-danger">Відхилено</span>
+                                        <span class="badge bg-danger">Відхилено</span>
                                   
                                     @elseif($transaction->status_ua == 'повернуто')
-                                        <span class="btn btn-lg btn-secondary">Повернуто</span>
+                                        <span class="badge bg-secondary">Повернуто</span>
                                     @else
-                                        <span class="btn btn-lg btn-warning">{{ ucfirst($transaction->status_ua) }}</span>
+                                        <span class="badge bg-warning">{{ ucfirst($transaction->status_ua) }}</span>
                                     @endif
                                 </td>
                             </tr>

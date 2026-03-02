@@ -32,8 +32,10 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{ route('admin.index') }}" id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="{{ asset('images/logo/logo.png') }}"
-                                data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
+                            <img class="" id="logo_header" alt=""
+                                src="{{ asset('images/logo/logo.png') }}"
+                                data-light="{{ asset('images/logo/logo.png') }}"
+                                data-dark="{{ asset('images/logo/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -66,7 +68,7 @@
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.products') }}" class="">
-                                                <div class="text">Продукти  </div>
+                                                <div class="text">Продукти </div>
                                             </a>
                                         </li>
                                     </ul>
@@ -135,7 +137,7 @@
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-shopping-cart"></i></div>
-                                        <div class="text">  Купони</div>
+                                        <div class="text"> Купони</div>
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
@@ -145,7 +147,7 @@
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.coupons') }}" class="">
-                                                <div class="text">Купони  </div>
+                                                <div class="text">Купони </div>
                                             </a>
                                         </li>
                                     </ul>
@@ -171,8 +173,10 @@
                                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                             <div class="icon"><i class="icon-settings"></i></div>
 
-                                            <div class="text">Logout</div>
+                                            <div class="text">Вихід</div>
                                         </a>
+                                        </form>
+
                                 </li>
                             </ul>
                         </div>
@@ -194,7 +198,7 @@
                                 </div>
 
 
-                            {{--     <form class="form-search flex-grow">
+                                {{--     <form class="form-search flex-grow">
                                     <fieldset class="name">
                                         <input type="text" placeholder="Search here..." class="show-search"
                                             name="name" tabindex="2" value="" aria-required="true"
@@ -448,14 +452,18 @@
                                                 <form method="POST" action="{{ route('logout') }}"
                                                     id="logout-form-dropdown">
                                                     @csrf
-                                                    <a href="{{ route('logout') }}" class="user-item"
+                                                </form>
+                                                 <a href="{{ route('logout') }}" class="user-item"
                                                         onclick="event.preventDefault();document.getElementById('logout-form-dropdown').submit();">
                                                         <div class="icon">
                                                             <i class="icon-log-out"></i>
                                                         </div>
-                                                        <div class="body-title-2">Log out</div>
+                                                        <div class="body-title-2">Вихід</div>
                                                     </a>
-                                                </form>
+
+                                              
+
+
                                             </li>
                                         </ul>
                                     </div>
@@ -465,7 +473,7 @@
                         </div>
                     </div>
                     <div class="main-content">
-                        
+
                         @yield('content')
 
 

@@ -32,6 +32,11 @@
                     <a class="tf-button style-1 w208" href="{{ route('admin.orders') }}">Назад</a>
                 </div>
                 <div class="table-responsive">
+                    @if(session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif  
                     <table class="table table-striped table-bordered">
 
                         <tr>
@@ -52,15 +57,22 @@
                             <td>{{ $order->delivery_date }}</td>
                             <td>{{ $order->cancelled_date }}</td>
                             <td colspan="5">
-                                @if ($order->status_ua == 'delivered')
-                                    <span class="badge bg-success">Доставлено</span>
-                                @elseif($order->status_ua == 'pending')
-                                    <span class="badge bg-info">В очікуванні</span>
-                                @elseif($order->status_ua == 'canceled')
-                                    <span class="badge bg-danger">Скасовано</span>
-                                @else
-                                    <span class="badge bg-warning">{{ ucfirst($order->status_ua) }}</span>
-                                @endif
+                              @php
+$statusLabels = [
+    'ordered' => 'Замовлено',
+    'delivered' => 'Доставлено',
+    'canceled' => 'Скасовано'
+];
+$badgeClasses = [
+    'ordered' => 'bg-primary',
+    'delivered' => 'bg-success',
+    'canceled' => 'bg-danger'
+];
+@endphp
+
+<span class="badge {{ $badgeClasses[$order->status] ?? 'bg-warning' }}">
+    {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+</span>
                             </td>
                         </tr>
 
@@ -182,6 +194,24 @@
 
                         </tbody>
                     </table>
+                </div>
+
+                <div class="wg-box mt-5">
+                    <h5>Оновити статус замовлення</h5>
+                    <form action="{{ route('admin.order.status.update') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        <div class="row mb-3">
+                           
+                            <select name="order_status" id="order_status" class="form-control">
+                                <option value="ordered" {{ $order->status == 'ordered' ? 'selected' : '' }}>Замовлено</option>
+                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Доставлено</option>
+                                <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Скасовано</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Оновити статус</button>
+                    </form>
                 </div>
             </div>
         </div>

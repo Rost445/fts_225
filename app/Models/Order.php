@@ -28,7 +28,7 @@ class Order extends Model
     return [
         'ordered'    => 'Замовлено',
         'processing' => 'В обробці',
-        'shipped'    => 'Відправлено',
+        'delivered'    => 'Доставлено',
         'completed'  => 'Завершено',
         'canceled'   => 'Скасовано',
     ][$this->status] ?? $this->status;

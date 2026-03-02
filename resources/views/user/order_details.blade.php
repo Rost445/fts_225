@@ -140,8 +140,23 @@
                   <tr>
                     <th>Статус замовлення</th>
                     <td colspan="5">
-                      <span class="badge bg-danger">{{ $order->status_ua }}</span>
-                    </td>
+                              @php
+$statusLabels = [
+    'ordered' => 'Замовлено',
+    'delivered' => 'Доставлено',
+    'canceled' => 'Скасовано'
+];
+$badgeClasses = [
+    'ordered' => 'bg-primary',
+    'delivered' => 'bg-success',
+    'canceled' => 'bg-danger'
+];
+@endphp
+
+<span class="badge {{ $badgeClasses[$order->status] ?? 'bg-warning' }}">
+    {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+</span>
+                            </td>
                   </tr>
                 </tbody>
               </table>

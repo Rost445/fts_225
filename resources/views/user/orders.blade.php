@@ -74,7 +74,7 @@
                                             <td class="text-center">${{ number_format($order->tax, 2) }}</td>
                                             <td class="text-center">${{ number_format($order->total, 2) }}</td>
                                             <td class="text-center">
-                                                <span class="badge bg-danger">{{ $order->status }}</span>
+                                                <span class="badge bg-danger">{{ $order->status_ua }}</span>
                                             </td>
                                             <td class="text-center">{{ $order->created_at->format('Y-m-d') }}</td>
                                             <td class="text-center">{{ $order->orderItems->count() }}</td>

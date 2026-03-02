@@ -536,7 +536,7 @@ class AdminController extends Controller
       ->with('success', 'Купон успішно додано.');
   }
 
-public function edit_coupon($id)
+  public function edit_coupon($id)
   {
     $header_title = "Редагувати купон";
     $coupon = Coupon::findOrFail($id);
@@ -590,4 +590,38 @@ public function edit_coupon($id)
     return view('admin.order_details', compact('header_title', 'order', 'orderItems', 'transaction'));
   }
 
+  public function update_order_status(Request $request)
+{
+    $order = Order::find($request->order_id);
+
+    // допустимі значення
+    $allowedStatuses = ['ordered', 'delivered', 'canceled'];
+
+    $status = $request->order_status;
+    if (!in_array($status, $allowedStatuses)) {
+        $status = 'ordered'; // дефолт
+    }
+
+    $order->status = $status;
+
+    // дати
+    if ($status == 'delivered') {
+        $order->delivered_date = Carbon::now();
+    } elseif ($status == 'canceled') {
+        $order->cancelled_date = Carbon::now();
+    }
+
+    $order->save();
+
+    // оновлення транзакції
+    if ($status == 'delivered') {
+        $transaction = Transaction::where('order_id', $order->id)->first();
+        if ($transaction) {
+            $transaction->status = 'approved';
+            $transaction->save();
+        }
+    }
+
+    return back()->with('status', 'Статус замовлення успішно оновлено.');
+}
 }

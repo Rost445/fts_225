@@ -202,7 +202,7 @@ class CartController extends Controller
       Cart::instance('cart')->destroy();
       session()->forget('coupon');
       session()->forget('discounts');
-      session()->forget('checkout');   
+      session()->forget('checkout');
       session()->put('order_id', $order->id);
       session()->flash('success_message', 'Ваше замовлення успішно оформлено!');
       return redirect()->route('cart.order.confirmation');
@@ -231,7 +231,7 @@ class CartController extends Controller
    }
    public function order_confirmation()
    {
-      if(session()->has('order_id')){
+      if (session()->has('order_id')) {
          $order = Order::find(session()->get('order_id'));
          return view('order-confirmation', compact('order'));
       }

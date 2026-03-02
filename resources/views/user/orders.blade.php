@@ -74,8 +74,23 @@
                                             <td class="text-center">${{ number_format($order->tax, 2) }}</td>
                                             <td class="text-center">${{ number_format($order->total, 2) }}</td>
                                             <td class="text-center">
-                                                <span class="badge bg-danger">{{ $order->status_ua }}</span>
-                                            </td>
+                                            @php
+                                                $statusLabels = [
+                                                    'ordered' => 'Замовлено',
+                                                    'delivered' => 'Доставлено',
+                                                    'canceled' => 'Скасовано',
+                                                ];
+                                                $badgeClasses = [
+                                                    'ordered' => 'bg-primary',
+                                                    'delivered' => 'bg-success',
+                                                    'canceled' => 'bg-danger',
+                                                ];
+                                            @endphp
+
+                                            <span class="badge {{ $badgeClasses[$order->status] ?? 'bg-warning' }}">
+                                                {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+                                            </span>
+                                        </td>
                                             <td class="text-center">{{ $order->created_at->format('Y-m-d') }}</td>
                                             <td class="text-center">{{ $order->orderItems->count() }}</td>
                                             <td class="text-center">{{ $order->delivered_date }}</td>

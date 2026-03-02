@@ -32,11 +32,11 @@
                     <a class="tf-button style-1 w208" href="{{ route('admin.orders') }}">Назад</a>
                 </div>
                 <div class="table-responsive">
-                    @if(session('status'))
+                    @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
-                    @endif  
+                    @endif
                     <table class="table table-striped table-bordered">
 
                         <tr>
@@ -57,22 +57,22 @@
                             <td>{{ $order->delivery_date }}</td>
                             <td>{{ $order->cancelled_date }}</td>
                             <td colspan="5">
-                              @php
-$statusLabels = [
-    'ordered' => 'Замовлено',
-    'delivered' => 'Доставлено',
-    'canceled' => 'Скасовано'
-];
-$badgeClasses = [
-    'ordered' => 'bg-primary',
-    'delivered' => 'bg-success',
-    'canceled' => 'bg-danger'
-];
-@endphp
+                                @php
+                                    $statusLabels = [
+                                        'ordered' => 'Замовлено',
+                                        'delivered' => 'Доставлено',
+                                        'canceled' => 'Скасовано',
+                                    ];
+                                    $badgeClasses = [
+                                        'ordered' => 'bg-primary',
+                                        'delivered' => 'bg-success',
+                                        'canceled' => 'bg-danger',
+                                    ];
+                                @endphp
 
-<span class="badge {{ $badgeClasses[$order->status] ?? 'bg-warning' }}">
-    {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
-</span>
+                                <span class="badge {{ $badgeClasses[$order->status] ?? 'bg-warning' }}">
+                                    {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+                                </span>
                             </td>
                         </tr>
 
@@ -124,8 +124,7 @@ $badgeClasses = [
                                             {{ $item->rstatus == 0 ? 'Не повернуто' : 'Повернуто' }}
                                         </td>
                                         <td class="text-center">
-                                            <a
-                                                href="{{ route('admin.order.details', ['order_id' => $order->id]) }}">
+                                            <a href="{{ route('admin.order.details', ['order_id' => $order->id]) }}">
                                                 <div class="list-icon-function view-icon">
                                                     <div class="item eye">
                                                         <i class="icon-eye"></i>
@@ -183,7 +182,6 @@ $badgeClasses = [
                                         <span class="badge bg-success">Затверджено</span>
                                     @elseif($transaction->status_ua == 'відхилено')
                                         <span class="badge bg-danger">Відхилено</span>
-                                  
                                     @elseif($transaction->status_ua == 'повернуто')
                                         <span class="badge bg-secondary">Повернуто</span>
                                     @else
@@ -202,17 +200,25 @@ $badgeClasses = [
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="order_id" value="{{ $order->id }}">
-                        <div class="row mb-3">
-                           
+
+                        <div class="row">
+
                             <select name="order_status" id="order_status" class="form-control">
-                                <option value="ordered" {{ $order->status == 'ordered' ? 'selected' : '' }}>Замовлено</option>
-                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Доставлено</option>
-                                <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Скасовано</option>
+                                <option value="ordered" {{ $order->status == 'ordered' ? 'selected' : '' }}>Замовлено
+                                </option>
+                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Доставлено
+                                </option>
+                                <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Скасовано
+                                </option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Оновити статус</button>
+                        <div class="my-4">
+                            <button type="submit" class="btn btn-primary">Оновити статус</button>
+                        </div>
                     </form>
                 </div>
+
+
             </div>
         </div>
     </div>

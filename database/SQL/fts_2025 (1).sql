@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.4:3306
--- Час створення: Лют 26 2026 р., 12:46
+-- Час створення: Бер 02 2026 р., 16:40
 -- Версія сервера: 8.4.6
 -- Версія PHP: 8.4.13
 
@@ -50,8 +50,9 @@ CREATE TABLE `addresses` (
 --
 
 INSERT INTO `addresses` (`id`, `user_id`, `name`, `phone`, `locality`, `address`, `city`, `state`, `country`, `landmark`, `zip`, `type`, `isdefault`, `created_at`, `updated_at`) VALUES
-(2, 4, 'Janna Pate', '+1 (924) 548-6911', 'Laboriosam pariatur', 'Minima architecto bl', 'Omnis reiciendis et', NULL, 'Україна', 'Libero commodo omnis', '71484', 'home', 1, '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
-(3, 5, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 1, '2026-02-26 08:05:03', '2026-02-26 08:05:03');
+(5, 4, 'Germaine Moody', '+1 (905) 727-3094', 'Qui cum qui exercita', 'Dicta sit veritatis', 'Ducimus quos hic qu', NULL, 'Україна', 'Ipsum quod et vel ni', '71368', 'home', 1, '2026-02-27 04:09:48', '2026-02-27 04:09:48'),
+(6, 6, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 1, '2026-03-02 04:38:28', '2026-03-02 04:38:28'),
+(7, 7, 'Jada Randolph', '+1 (857) 597-5508', 'Assumenda unde nemo', 'Consectetur cupidit', 'Laudantium ea nihil', NULL, 'Україна', 'Doloribus voluptas e', '71606', 'home', 1, '2026-03-02 10:40:20', '2026-03-02 10:40:20');
 
 -- --------------------------------------------------------
 
@@ -253,7 +254,7 @@ CREATE TABLE `orders` (
   `landmark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `zip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'home',
-  `status` enum('ordered','delivered','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ordered',
+  `status` enum('ordered','delivered','canceled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'ordered',
   `is_shipping_differnt` tinyint(1) NOT NULL DEFAULT '0',
   `delivered_date` date DEFAULT NULL,
   `cancelled_date` date DEFAULT NULL,
@@ -266,11 +267,11 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `discount`, `tax`, `total`, `name`, `phone`, `locality`, `address`, `city`, `state`, `country`, `landmark`, `zip`, `type`, `status`, `is_shipping_differnt`, `delivered_date`, `cancelled_date`, `created_at`, `updated_at`) VALUES
-(3, 4, 1070.00, 0.00, 21.40, 1091.40, 'Janna Pate', '+1 (924) 548-6911', 'Laboriosam pariatur', 'Minima architecto bl', 'Omnis reiciendis et', NULL, 'Україна', 'Libero commodo omnis', '71484', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
-(4, 5, 1230.00, 0.00, 24.60, 1254.60, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:05:03', '2026-02-26 08:05:03'),
-(5, 5, 1250.00, 0.00, 25.00, 1275.00, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
-(6, 5, 1230.00, 0.00, 24.60, 1254.60, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:25:20', '2026-02-26 08:25:20'),
-(7, 5, 1980.00, 500.00, 39.60, 2019.60, 'Barry Clemons', '+1 (573) 803-9352', 'Minus accusantium vo', 'Nihil adipisicing am', 'Pariatur Quia dolor', NULL, 'Україна', 'Fugiat exercitation', '96409', 'home', 'ordered', 0, NULL, NULL, '2026-02-26 08:39:39', '2026-02-26 08:39:39');
+(11, 6, 19600.00, 500.00, 392.00, 19992.00, 'Germaine Moody', '+1 (905) 727-3094', 'Qui cum qui exercita', 'Dicta sit veritatis', 'Ducimus quos hic qu', NULL, 'Україна', 'Ipsum quod et vel ni', '71368', 'home', 'delivered', 0, '2026-03-02', '2026-03-02', '2026-02-27 04:09:48', '2026-03-02 09:57:10'),
+(12, 6, 180.00, 0.00, 3.60, 183.60, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'canceled', 0, '2026-03-02', '2026-03-02', '2026-03-02 04:38:28', '2026-03-02 09:58:48'),
+(14, 6, 1700.00, 0.00, 34.00, 1734.00, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'delivered', 0, '2026-03-02', '2026-03-02', '2026-03-02 10:28:23', '2026-03-02 12:28:50'),
+(15, 7, 1700.00, 0.00, 34.00, 1734.00, 'Jada Randolph', '+1 (857) 597-5508', 'Assumenda unde nemo', 'Consectetur cupidit', 'Laudantium ea nihil', NULL, 'Україна', 'Doloribus voluptas e', '71606', 'home', 'canceled', 0, '2026-03-02', '2026-03-02', '2026-03-02 10:40:20', '2026-03-02 11:41:27'),
+(16, 6, 1070.00, 0.00, 21.40, 1091.40, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'canceled', 0, NULL, NULL, '2026-03-02 12:33:34', '2026-03-02 12:39:22');
 
 -- --------------------------------------------------------
 
@@ -295,14 +296,13 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `product_id`, `order_id`, `price`, `quantity`, `options`, `status`, `created_at`, `updated_at`) VALUES
-(3, 15, 3, 1070.00, 1, NULL, 0, '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
-(4, 16, 4, 1230.00, 1, NULL, 0, '2026-02-26 08:05:03', '2026-02-26 08:05:03'),
-(5, 17, 5, 180.00, 1, NULL, 0, '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
-(6, 15, 5, 1070.00, 1, NULL, 0, '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
-(7, 16, 6, 1230.00, 1, NULL, 0, '2026-02-26 08:25:20', '2026-02-26 08:25:20'),
-(8, 16, 7, 1230.00, 1, NULL, 0, '2026-02-26 08:39:39', '2026-02-26 08:39:39'),
-(9, 15, 7, 1070.00, 1, NULL, 0, '2026-02-26 08:39:39', '2026-02-26 08:39:39'),
-(10, 17, 7, 180.00, 1, NULL, 0, '2026-02-26 08:39:39', '2026-02-26 08:39:39');
+(17, 15, 11, 1070.00, 10, NULL, 0, '2026-02-27 04:09:48', '2026-02-27 04:09:48'),
+(18, 18, 11, 1700.00, 5, NULL, 0, '2026-02-27 04:09:48', '2026-02-27 04:09:48'),
+(19, 17, 11, 180.00, 5, NULL, 0, '2026-02-27 04:09:48', '2026-02-27 04:09:48'),
+(20, 17, 12, 180.00, 1, NULL, 0, '2026-03-02 04:38:28', '2026-03-02 04:38:28'),
+(22, 18, 14, 1700.00, 1, NULL, 0, '2026-03-02 10:28:23', '2026-03-02 10:28:23'),
+(23, 18, 15, 1700.00, 1, NULL, 0, '2026-03-02 10:40:20', '2026-03-02 10:40:20'),
+(24, 15, 16, 1070.00, 1, NULL, 0, '2026-03-02 12:33:34', '2026-03-02 12:33:34');
 
 -- --------------------------------------------------------
 
@@ -372,7 +372,10 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('2N5TJLvm37DuT72dJGuDOTmEin1CUemYigVURyaZ', 5, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiUDQxWko3WDZPREM3N1JLSVVWZ2ZGa3Vmb0F4dVo3THZDRFVueGpXQiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vcmRlci1jb25maXJtYXRpb24iO31zOjQ6ImNhcnQiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjU7czo4OiJvcmRlcl9pZCI7aTo3O30=', 1772102689);
+('FtizHfp6xp3qA2SGMWjS7QKnoepR74S6lguxH57m', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidkM5SHVSb2ljb0o4SVA3MmR6ZmlaakhPc3lPNDNJWllZOXBjeVdUdiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjQ0OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vb3JkZXIvMTUvZGV0YWlscyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzcyNDM1OTYzO319', 1772455878),
+('G2d3Zn6zAMBNFWDMSCADOPGZklWq1gmp6NT9mgze', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiQUFsQ2RGYTdaM3FxSXpaSEhNMWxuNzhOd3RBSVhvUWMxRVhRVWRkdCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHBzOi8vZnRzLmxvYy9wdWJsaWMvYWNjb3VudC1vcmRlci8xNi9kZXRhaWxzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3NzI0NTk2NDA7fXM6NDoiY2FydCI7YTowOnt9czo4OiJvcmRlcl9pZCI7aToxNjt9', 1772462362),
+('mTK9YChPx6nxHWTQlXmWGrZGb242btPQ2Bb7aPIR', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZENvQTFXOW5QRThuVnVLckliTmxzdFlqTEhvb2I1d0pIclVqZ1NKRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHBzOi8vZnRzLmxvYy9wdWJsaWMvYWRtaW4vb3JkZXIvMTYvZGV0YWlscyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzcyNDU5NjY3O319', 1772462302),
+('uYsDWQkl328fzXlvCosd4hRQvHIofNmkIcpB5F3R', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZU0yQkhnSnRyVk9EaGhKd25nRllvdDdnQnhocVNwMk5DSDZPM0J6bCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hY2NvdW50LW9yZGVyLzE1L2RldGFpbHMiO31zOjQ6ImNhcnQiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjc7czo4OiJvcmRlcl9pZCI7aToxNTt9', 1772462277);
 
 -- --------------------------------------------------------
 
@@ -395,11 +398,11 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `user_id`, `order_id`, `mode`, `status`, `created_at`, `updated_at`) VALUES
-(3, 4, 3, 'paypal', 'pending', '2026-02-26 07:57:14', '2026-02-26 07:57:14'),
-(4, 5, 4, 'paypal', 'pending', '2026-02-26 08:05:03', '2026-02-26 08:05:03'),
-(5, 5, 5, 'card', 'pending', '2026-02-26 08:10:20', '2026-02-26 08:10:20'),
-(6, 5, 6, 'card', 'pending', '2026-02-26 08:25:20', '2026-02-26 08:25:20'),
-(7, 5, 7, 'cod', 'pending', '2026-02-26 08:39:39', '2026-02-26 08:39:39');
+(11, 4, 11, 'card', 'approved', '2026-02-27 04:09:48', '2026-03-02 07:56:36'),
+(12, 6, 12, 'card', 'approved', '2026-03-02 04:38:28', '2026-03-02 09:58:17'),
+(14, 6, 14, 'cod', 'approved', '2026-03-02 10:28:23', '2026-03-02 12:17:53'),
+(15, 7, 15, 'cod', 'approved', '2026-03-02 10:40:20', '2026-03-02 10:42:09'),
+(16, 6, 16, 'card', 'pending', '2026-03-02 12:33:34', '2026-03-02 12:33:34');
 
 -- --------------------------------------------------------
 
@@ -426,7 +429,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `mobile`, `email_verified_at`, `password`, `utype`, `remember_token`, `created_at`, `updated_at`) VALUES
 (4, 'Chaim Riddle', 'luwybod@mailinator.com', '0660173965', '2025-12-23 14:04:24', '$2y$12$kGDizaTuJor.9tii0O1dWuIWQAmndqrukAh.JDLh/QX8kgDHoelXm', 'ADM', NULL, '2025-12-23 12:03:43', '2025-12-23 12:03:43'),
-(5, 'Aline Palmer', 'ruzubed@mailinator.com', '17669045656', '2026-02-26 10:03:58', '$2y$12$Dr2pu0v/5Z37rhpQEIkVG./i9jzqse2K7LkbTGqgKhaIO/jYvWNOa', 'USR', NULL, '2026-02-26 08:02:51', '2026-02-26 08:02:51');
+(6, 'Leo Townsend', 'gulat@mailinator.com', '12345678987', NULL, '$2y$12$/dhc6t0CVc3I1w9VFQc65OGd28QpkV/5fPW4AKTBr06N2KBGbBNf6', 'USR', NULL, '2026-02-27 05:59:50', '2026-02-27 05:59:50'),
+(7, 'Renee Morrison', 'jyliciber@mailinator.com', '12345678909', NULL, '$2y$12$mDjoEzcZNntqmPeSJ4vnB.erXlf1qSmlNEKTUaDa9jmUu3wVzQ8/y', 'USR', NULL, '2026-03-02 10:39:52', '2026-03-02 10:39:52');
 
 --
 -- Індекси збережених таблиць
@@ -559,7 +563,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблиці `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблиці `brands`
@@ -601,13 +605,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT для таблиці `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблиці `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT для таблиці `products`
@@ -619,13 +623,13 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблиці `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблиці `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Обмеження зовнішнього ключа збережених таблиць

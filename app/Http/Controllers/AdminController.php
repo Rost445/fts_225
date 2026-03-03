@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\Order;
+use App\Models\Slide;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 
@@ -591,7 +592,7 @@ class AdminController extends Controller
   }
 
   public function update_order_status(Request $request)
-{
+  {
     $order = Order::find($request->order_id);
 
     // допустимі значення
@@ -599,29 +600,141 @@ class AdminController extends Controller
 
     $status = $request->order_status;
     if (!in_array($status, $allowedStatuses)) {
-        $status = 'ordered'; // дефолт
+      $status = 'ordered'; // дефолт
     }
 
     $order->status = $status;
 
     // дати
     if ($status == 'delivered') {
-        $order->delivered_date = Carbon::now();
+      $order->delivered_date = Carbon::now();
     } elseif ($status == 'canceled') {
-        $order->cancelled_date = Carbon::now();
+      $order->cancelled_date = Carbon::now();
     }
 
     $order->save();
 
     // оновлення транзакції
     if ($status == 'delivered') {
-        $transaction = Transaction::where('order_id', $order->id)->first();
-        if ($transaction) {
-            $transaction->status = 'approved';
-            $transaction->save();
-        }
+      $transaction = Transaction::where('order_id', $order->id)->first();
+      if ($transaction) {
+        $transaction->status = 'approved';
+        $transaction->save();
+      }
     }
 
     return back()->with('status', 'Статус замовлення успішно оновлено.');
-}
-}
+  }
+
+  public function slides()
+  {
+    $header_title = "Слайди";
+    $slides = Slide::orderBy('id', 'DESC')->paginate(10);
+    return view('admin.slides', compact('header_title', 'slides'));
+  }
+  public function add_slide()
+  {
+    $header_title = "Додати слайд";
+    return view('admin.add_slide', compact('header_title'));
+  }
+  public function store_slide(Request $request)
+  {
+    $request->validate([
+      'tagline' => 'required|string|max:255',
+      'title'   => 'required|string|max:255',
+      'subtitle' => 'required|string|max:255',
+      'link'    => 'required|url|max:255',
+      'status'  => 'required|in:0,1',
+      'image'   => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+    ]);
+
+    $slide = new Slide();
+    $slide->tagline = $request->tagline;
+    $slide->title = $request->title;
+    $slide->subtitle = $request->subtitle;
+    $slide->link = $request->link;
+    $slide->status = $request->status;
+    $image = $request->file('image');
+    $file_extension = $request->file('image')->extension();
+    $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+    $this->GenerateSlideThumbnailsImage($image, $file_name);
+    $slide->image = $file_name;
+    $slide->save();
+
+    return redirect()->route('admin.slides')
+      ->with('success', 'Слайд успішно додано.');
+  }
+
+  public function GenerateSlideThumbnailsImage($image, $imageName)
+  {
+    $destinationPath = public_path('/uploads/slides');
+
+    if (!file_exists($destinationPath)) {
+      mkdir($destinationPath, 0755, true);
+    }
+
+    $destinationPath = public_path('/uploads/slides');
+    $img = Image::read($image->path());
+   $img->cover(400,690,"top");
+    $img->resize(400, 690, function ($constraint) {
+          $constraint->aspectRatio();
+    })->save($destinationPath . '/' . $imageName);
+     
+  }
+
+  public function edit_slide($id)
+  {
+    $header_title = "Редагувати слайд";
+    $slide = Slide::findOrFail($id);
+    return view('admin.edit_slide', compact('slide', 'header_title'));
+  }
+
+  public function update_slide(Request $request)
+  {
+    $request->validate([
+      'tagline' => 'required|string|max:255',
+      'title'   => 'required|string|max:255',
+      'subtitle' => 'required|string|max:255',
+      'link'    => 'required|url|max:255',
+      'status'  => 'required|in:0,1',
+      'image'   => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+    ]);
+
+    $slide = Slide::findOrFail($request->id);
+    $slide->tagline = $request->tagline;
+    $slide->title = $request->title;
+    $slide->subtitle = $request->subtitle;
+    $slide->link = $request->link;
+    $slide->status = $request->status;
+
+    if ($request->hasFile('image')) {
+      if (File::exists(public_path('uploads/slides/' . $slide->image))) {
+        File::delete(public_path('uploads/slides/' . $slide->image));
+      }
+      $image = $request->file('image');
+      $file_extension = $request->file('image')->extension();
+      $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+      $this->GenerateSlideThumbnailsImage($image, $file_name);
+      $slide->image = $file_name;
+    }
+
+    $slide->save();
+
+    return redirect()->route('admin.slides')
+      ->with('success', 'Слайд успішно оновлено.');
+  }
+
+  public function delete_slide($id)
+  {
+    $slide = Slide::findOrFail($id);
+
+    if (File::exists(public_path('uploads/slides/' . $slide->image))) {
+      File::delete(public_path('uploads/slides/' . $slide->image));
+    }
+
+    $slide->delete();
+
+    return redirect()->route('admin.slides')
+      ->with('success', 'Слайд успішно видалено.');
+  }
+ }

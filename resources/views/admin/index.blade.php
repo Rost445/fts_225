@@ -193,7 +193,7 @@
 
                                     <div class="wg-box">
                                         <div class="flex items-center justify-between">
-                                            <h5>Recent orders</h5>
+                                            <h5>Останні замовлення</h5>
                                             <div class="dropdown default">
                                                 <a class="btn btn-secondary dropdown-toggle" href="#">
                                                     <span class="view-all">View all</span>
@@ -201,51 +201,72 @@
                                             </div>
                                         </div>
                                         <div class="wg-table table-all-user">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 80px">OrderNo</th>
-                                                            <th>Name</th>
-                                                            <th class="text-center">Phone</th>
-                                                            <th class="text-center">Subtotal</th>
-                                                            <th class="text-center">Tax</th>
-                                                            <th class="text-center">Total</th>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width:70px">№ замовлення</th>
+                                                        <th class="text-center">Ім'я</th>
+                                                        <th class="text-center">Телефон</th>
+                                                        <th class="text-center">Проміжний підсумок</th>
+                                                        <th class="text-center">ПДВ</th>
+                                                        <th class="text-center">Всього</th>
+                                                        <th class="text-center">Статус</th>
+                                                        <th class="text-center">Дата замовлення</th>
+                                                        <th class="text-center">Загальна кількість товарів</th>
+                                                        <th class="text-center">Дата доставки</th>
+                                                        <th class="text-center">Переглянути</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($orders as $order)
+                                                    <tr>
+                                                        <td class="text-center">{{ $order->id }}</td>
+                                                        <td class="text-center">{{ $order->name }}</td>
+                                                        <td class="text-center">{{ $order->phone }}</td>
+                                                        <td class="text-center">{{ number_format($order->subtotal, 2) }} ₴</td>
+                                                        <td class="text-center">{{ number_format($order->tax, 2) }} ₴</td>
+                                                        <td class="text-center">{{ number_format($order->total, 2) }} ₴</td>
+                                                         @php
+    $statusLabels = [
+        'ordered' => 'Замовлено',
+        'delivered' => 'Доставлено',
+        'canceled' => 'Скасовано',
+    ];
+    $badgeClasses = [
+        'ordered' => 'badge bg-primary',
+        'delivered' => 'badge bg-success',
+        'canceled' => 'badge bg-danger',
+    ];
+@endphp
 
-                                                            <th class="text-center">Status</th>
-                                                            <th class="text-center">Order Date</th>
-                                                            <th class="text-center">Total Items</th>
-                                                            <th class="text-center">Delivered On</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="text-center">1</td>
-                                                            <td class="text-center">Divyansh Kumar</td>
-                                                            <td class="text-center">1234567891</td>
-                                                            <td class="text-center">$172.00</td>
-                                                            <td class="text-center">$36.12</td>
-                                                            <td class="text-center">$208.12</td>
-
-                                                            <td class="text-center">ordered</td>
-                                                            <td class="text-center">2024-07-11 00:54:14</td>
-                                                            <td class="text-center">2</td>
-                                                            <td></td>
-                                                            <td class="text-center">
-                                                                <a href="#">
-                                                                    <div class="list-icon-function view-icon">
-                                                                        <div class="item eye">
-                                                                            <i class="icon-eye"></i>
-                                                                        </div>
+<td class="text-center">
+    <span class="{{ $badgeClasses[$order->status] ?? 'badge bg-warning' }}">
+        {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+    </span>
+</td>
+                                                        <td class="text-center">{{ $order->created_at }}</td>
+                                                        <td class="text-center">{{ $order->orderItems->count() }}</td>
+                                                     
+                                                        <td class="text-center">{{ $order->delivered_date }}</td>
+                                                       
+                                                        <td class="text-center">
+                                                            <a href="{{ route('admin.order.details', $order->id) }}" class="list-icon-function view-icon">
+                                                                <div class="list-icon-function view-icon">
+                                                                    <div class="item eye">
+                                                                        <i class="icon-eye"></i>
                                                                     </div>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                                </div>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                    
+
+                                                </tbody>
+                                            </table>
                                         </div>
+                                    </div>
                                     </div>
 
                                 </div>

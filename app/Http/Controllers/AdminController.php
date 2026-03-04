@@ -20,7 +20,8 @@ class AdminController extends Controller
 {
   public function index()
   {
-    return view('admin.index');
+  $orders = Order::orderBy('created_at', 'DESC')->take(10)->get();
+    return view('admin.index', compact('orders'));
   }
 
   public function brands()

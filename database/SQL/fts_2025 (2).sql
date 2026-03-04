@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.4:3306
--- Час створення: Бер 02 2026 р., 16:40
+-- Час створення: Бер 04 2026 р., 16:35
 -- Версія сервера: 8.4.6
 -- Версія PHP: 8.4.13
 
@@ -229,7 +229,39 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2026_02_25_072315_create_orders_table', 6),
 (12, '2026_02_25_072342_create_addresses_table', 6),
 (13, '2026_02_25_072419_create_transactions_table', 6),
-(14, '2026_02_25_083322_create_order_items_table', 6);
+(14, '2026_02_25_083322_create_order_items_table', 6),
+(15, '2026_03_03_072336_create_slides_table', 7),
+(16, '2026_03_03_073415_create_slides_table', 8),
+(17, '2026_03_04_123852_create_month_names_table', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `month_names`
+--
+
+CREATE TABLE `month_names` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `month_names`
+--
+
+INSERT INTO `month_names` (`id`, `name`) VALUES
+(1, 'Січень'),
+(2, 'Лютий'),
+(3, 'Березень'),
+(4, 'Квітень'),
+(5, 'Травень'),
+(6, 'Червень'),
+(7, 'Липень'),
+(8, 'Серпень'),
+(9, 'Вересень'),
+(10, 'Жовтень'),
+(11, 'Листопад'),
+(12, 'Грудень');
 
 -- --------------------------------------------------------
 
@@ -267,11 +299,12 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `discount`, `tax`, `total`, `name`, `phone`, `locality`, `address`, `city`, `state`, `country`, `landmark`, `zip`, `type`, `status`, `is_shipping_differnt`, `delivered_date`, `cancelled_date`, `created_at`, `updated_at`) VALUES
-(11, 6, 19600.00, 500.00, 392.00, 19992.00, 'Germaine Moody', '+1 (905) 727-3094', 'Qui cum qui exercita', 'Dicta sit veritatis', 'Ducimus quos hic qu', NULL, 'Україна', 'Ipsum quod et vel ni', '71368', 'home', 'delivered', 0, '2026-03-02', '2026-03-02', '2026-02-27 04:09:48', '2026-03-02 09:57:10'),
-(12, 6, 180.00, 0.00, 3.60, 183.60, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'canceled', 0, '2026-03-02', '2026-03-02', '2026-03-02 04:38:28', '2026-03-02 09:58:48'),
+(11, 6, 19600.00, 500.00, 392.00, 19992.00, 'Germaine Moody', '+1 (905) 727-3094', 'Qui cum qui exercita', 'Dicta sit veritatis', 'Ducimus quos hic qu', NULL, 'Україна', 'Ipsum quod et vel ni', '71368', 'home', 'canceled', 0, '2026-03-04', '2026-03-04', '2026-02-27 04:09:48', '2026-03-04 10:34:36'),
+(12, 6, 180.00, 0.00, 3.60, 183.60, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'delivered', 0, '2026-03-04', '2026-03-02', '2026-03-02 04:38:28', '2026-03-04 10:32:58'),
 (14, 6, 1700.00, 0.00, 34.00, 1734.00, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'delivered', 0, '2026-03-02', '2026-03-02', '2026-03-02 10:28:23', '2026-03-02 12:28:50'),
-(15, 7, 1700.00, 0.00, 34.00, 1734.00, 'Jada Randolph', '+1 (857) 597-5508', 'Assumenda unde nemo', 'Consectetur cupidit', 'Laudantium ea nihil', NULL, 'Україна', 'Doloribus voluptas e', '71606', 'home', 'canceled', 0, '2026-03-02', '2026-03-02', '2026-03-02 10:40:20', '2026-03-02 11:41:27'),
-(16, 6, 1070.00, 0.00, 21.40, 1091.40, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'canceled', 0, NULL, NULL, '2026-03-02 12:33:34', '2026-03-02 12:39:22');
+(15, 7, 1700.00, 0.00, 34.00, 1734.00, 'Jada Randolph', '+1 (857) 597-5508', 'Assumenda unde nemo', 'Consectetur cupidit', 'Laudantium ea nihil', NULL, 'Україна', 'Doloribus voluptas e', '71606', 'home', 'canceled', 0, '2026-03-04', '2026-03-04', '2026-03-02 10:40:20', '2026-03-04 12:29:11'),
+(16, 6, 1070.00, 0.00, 21.40, 1091.40, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'canceled', 0, '2026-03-04', '2026-03-04', '2026-03-02 12:33:34', '2026-03-04 12:29:01'),
+(17, 6, 1700.00, 0.00, 34.00, 1734.00, 'Townsend', '+1 (194) 124-4525', 'Ut molestiae laboris', 'Incididunt aliqua O', 'Omnis modi corporis', NULL, 'Україна', 'Sunt facilis quos et', '96101', 'home', 'canceled', 0, NULL, '2026-03-04', '2026-03-03 05:13:30', '2026-03-04 12:14:31');
 
 -- --------------------------------------------------------
 
@@ -302,7 +335,8 @@ INSERT INTO `order_items` (`id`, `product_id`, `order_id`, `price`, `quantity`, 
 (20, 17, 12, 180.00, 1, NULL, 0, '2026-03-02 04:38:28', '2026-03-02 04:38:28'),
 (22, 18, 14, 1700.00, 1, NULL, 0, '2026-03-02 10:28:23', '2026-03-02 10:28:23'),
 (23, 18, 15, 1700.00, 1, NULL, 0, '2026-03-02 10:40:20', '2026-03-02 10:40:20'),
-(24, 15, 16, 1070.00, 1, NULL, 0, '2026-03-02 12:33:34', '2026-03-02 12:33:34');
+(24, 15, 16, 1070.00, 1, NULL, 0, '2026-03-02 12:33:34', '2026-03-02 12:33:34'),
+(25, 18, 17, 1700.00, 1, NULL, 0, '2026-03-03 05:13:30', '2026-03-03 05:13:30');
 
 -- --------------------------------------------------------
 
@@ -372,10 +406,35 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('FtizHfp6xp3qA2SGMWjS7QKnoepR74S6lguxH57m', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoidkM5SHVSb2ljb0o4SVA3MmR6ZmlaakhPc3lPNDNJWllZOXBjeVdUdiI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjQ0OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vb3JkZXIvMTUvZGV0YWlscyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzcyNDM1OTYzO319', 1772455878),
-('G2d3Zn6zAMBNFWDMSCADOPGZklWq1gmp6NT9mgze', 6, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiQUFsQ2RGYTdaM3FxSXpaSEhNMWxuNzhOd3RBSVhvUWMxRVhRVWRkdCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDc6Imh0dHBzOi8vZnRzLmxvYy9wdWJsaWMvYWNjb3VudC1vcmRlci8xNi9kZXRhaWxzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjtzOjQ6ImF1dGgiO2E6MTp7czoyMToicGFzc3dvcmRfY29uZmlybWVkX2F0IjtpOjE3NzI0NTk2NDA7fXM6NDoiY2FydCI7YTowOnt9czo4OiJvcmRlcl9pZCI7aToxNjt9', 1772462362),
-('mTK9YChPx6nxHWTQlXmWGrZGb242btPQ2Bb7aPIR', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZENvQTFXOW5QRThuVnVLckliTmxzdFlqTEhvb2I1d0pIclVqZ1NKRiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDU6Imh0dHBzOi8vZnRzLmxvYy9wdWJsaWMvYWRtaW4vb3JkZXIvMTYvZGV0YWlscyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzcyNDU5NjY3O319', 1772462302),
-('uYsDWQkl328fzXlvCosd4hRQvHIofNmkIcpB5F3R', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiZU0yQkhnSnRyVk9EaGhKd25nRllvdDdnQnhocVNwMk5DSDZPM0J6bCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hY2NvdW50LW9yZGVyLzE1L2RldGFpbHMiO31zOjQ6ImNhcnQiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjc7czo4OiJvcmRlcl9pZCI7aToxNTt9', 1772462277);
+('7nIZGgNKma3eloc2NnhTmwANBhplOLuttbLKFGZr', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'YTo1OntzOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyNzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2FkbWluIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo2OiJfdG9rZW4iO3M6NDA6InJUWHdkQUpVMzhZY1dBTUdYdjdYeUYySms1N2Q1ZFRxUjM5S1huMVciO3M6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7czo0OiJhdXRoIjthOjE6e3M6MjE6InBhc3N3b3JkX2NvbmZpcm1lZF9hdCI7aToxNzcyNjE5MTk3O319', 1772634873);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `slides`
+--
+
+CREATE TABLE `slides` (
+  `id` bigint UNSIGNED NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtitle` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tagline` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп даних таблиці `slides`
+--
+
+INSERT INTO `slides` (`id`, `title`, `subtitle`, `tagline`, `image`, `link`, `status`, `created_at`, `updated_at`) VALUES
+(6, 'Unde quia quo dolorsacxasc', 'Aut velit cumque iurascasc', 'Culpa irure nulla resdASsac', '1772546374.png', 'https://youtube.com', 1, '2026-03-03 09:12:30', '2026-03-03 11:59:34'),
+(7, 'Unde quia quo dolorййййй', 'Aut velit cumque iur324234234', 'Culpa irure nulla re22', '1772546703.jpg', 'https://yцйівйцвoutube.com', 1, '2026-03-03 11:52:57', '2026-03-03 12:05:03'),
+(8, 'Neque pariatur VeliASc', 'Unde aut id qui maxsac', 'Mollitia voluptate qASDF', '1772546785.png', 'https://youtube.com', 1, '2026-03-03 12:06:26', '2026-03-03 12:12:02'),
+(10, 'Dicta voluptate nost', 'Sint dolorem non exp', 'Adipisicing sit omn', '1772547177.png', 'https://youtube.com', 1, '2026-03-03 12:12:57', '2026-03-03 12:12:57');
 
 -- --------------------------------------------------------
 
@@ -402,7 +461,8 @@ INSERT INTO `transactions` (`id`, `user_id`, `order_id`, `mode`, `status`, `crea
 (12, 6, 12, 'card', 'approved', '2026-03-02 04:38:28', '2026-03-02 09:58:17'),
 (14, 6, 14, 'cod', 'approved', '2026-03-02 10:28:23', '2026-03-02 12:17:53'),
 (15, 7, 15, 'cod', 'approved', '2026-03-02 10:40:20', '2026-03-02 10:42:09'),
-(16, 6, 16, 'card', 'pending', '2026-03-02 12:33:34', '2026-03-02 12:33:34');
+(16, 6, 16, 'card', 'approved', '2026-03-02 12:33:34', '2026-03-04 10:32:34'),
+(17, 6, 17, 'card', 'pending', '2026-03-03 05:13:30', '2026-03-03 05:13:30');
 
 -- --------------------------------------------------------
 
@@ -501,6 +561,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Індекси таблиці `month_names`
+--
+ALTER TABLE `month_names`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Індекси таблиці `orders`
 --
 ALTER TABLE `orders`
@@ -538,6 +604,12 @@ ALTER TABLE `sessions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sessions_user_id_index` (`user_id`),
   ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
+-- Індекси таблиці `slides`
+--
+ALTER TABLE `slides`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Індекси таблиці `transactions`
@@ -599,19 +671,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT для таблиці `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT для таблиці `month_names`
+--
+ALTER TABLE `month_names`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблиці `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблиці `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT для таблиці `products`
@@ -620,10 +698,16 @@ ALTER TABLE `products`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT для таблиці `slides`
+--
+ALTER TABLE `slides`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT для таблиці `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблиці `users`

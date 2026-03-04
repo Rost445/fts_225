@@ -15,14 +15,94 @@ use App\Models\Order;
 use App\Models\Slide;
 use App\Models\OrderItem;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-  public function index()
-  {
-  $orders = Order::orderBy('created_at', 'DESC')->take(10)->get();
-    return view('admin.index', compact('orders'));
-  }
+ public function index()
+{
+    $orders = Order::latest()->take(10)->get();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Загальна статистика
+    |--------------------------------------------------------------------------
+    */
+    $dashboardDatas = Order::selectRaw('
+        SUM(total) as TotalAmount,
+        SUM(CASE WHEN status = "ordered" THEN total ELSE 0 END) as TotalOrderedAmount,
+        SUM(CASE WHEN status = "delivered" THEN total ELSE 0 END) as TotalDeliveredAmount,
+        SUM(CASE WHEN status = "canceled" THEN total ELSE 0 END) as TotalCanceledAmount,
+
+        COUNT(*) as Total,
+        SUM(CASE WHEN status = "ordered" THEN 1 ELSE 0 END) as TotalOrdered,
+        SUM(CASE WHEN status = "delivered" THEN 1 ELSE 0 END) as TotalDelivered,
+        SUM(CASE WHEN status = "canceled" THEN 1 ELSE 0 END) as TotalCanceled
+    ')->first();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Щомісячна статистика (всі 12 місяців)
+    |--------------------------------------------------------------------------
+    */
+    $monthlyDatas = DB::table('month_names')
+        ->leftJoin('orders', function ($join) {
+            $join->on(DB::raw('MONTH(orders.created_at)'), '=', 'month_names.id');
+        })
+        ->select(
+            'month_names.id',
+            'month_names.name as month_name',
+            DB::raw('COUNT(orders.id) as total_orders'),
+            DB::raw('COALESCE(SUM(orders.total),0) as total_amount'),
+            DB::raw('COALESCE(SUM(CASE WHEN orders.status="ordered" THEN orders.total ELSE 0 END),0) as total_ordered_amount'),
+            DB::raw('COALESCE(SUM(CASE WHEN orders.status="delivered" THEN orders.total ELSE 0 END),0) as total_delivered_amount'),
+            DB::raw('COALESCE(SUM(CASE WHEN orders.status="canceled" THEN orders.total ELSE 0 END),0) as total_canceled_amount')
+        )
+        ->groupBy('month_names.id', 'month_names.name')
+        ->orderBy('month_names.id')
+        ->get();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Дані для графіка
+    |--------------------------------------------------------------------------
+    */
+    $AmountM = $monthlyDatas->pluck('total_amount')->implode(',');
+    $AmountO = $monthlyDatas->pluck('total_orders')->implode(',');
+
+    $orderedAmountM   = $monthlyDatas->pluck('total_ordered_amount')->implode(',');
+    $deliveredAmountM = $monthlyDatas->pluck('total_delivered_amount')->implode(',');
+    $canceledAmountM  = $monthlyDatas->pluck('total_canceled_amount')->implode(',');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Підсумки
+    |--------------------------------------------------------------------------
+    */
+    $TotalAmount          = $monthlyDatas->sum('total_amount');
+    $TotalOrderedAmount   = $monthlyDatas->sum('total_ordered_amount');
+    $TotalDeliveredAmount = $monthlyDatas->sum('total_delivered_amount');
+    $TotalCanceledAmount  = $monthlyDatas->sum('total_canceled_amount');
+
+
+    return view('admin.index', compact(
+        'orders',
+        'dashboardDatas',
+        'monthlyDatas',
+        'AmountM',
+        'AmountO',
+        'orderedAmountM',
+        'deliveredAmountM',
+        'canceledAmountM',
+        'TotalAmount',
+        'TotalOrderedAmount',
+        'TotalDeliveredAmount',
+        'TotalCanceledAmount'
+    ));
+}
 
   public function brands()
   {

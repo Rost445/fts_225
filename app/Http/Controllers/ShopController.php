@@ -70,4 +70,16 @@ class ShopController extends Controller
 
         return view('details', compact('product', 'rproducts'));
     }
+    public function sale()
+{
+    $products = Product::whereNotNull('sale_price')
+        ->where('sale_price', '<>', '')
+        ->orderBy('created_at','DESC')
+        ->paginate(12);
+
+    $categories = Category::orderBy('name','ASC')->get();
+    $brands = Brand::orderBy('name','ASC')->get();
+
+    return view('shop-sale', compact('products','categories','brands'));
+}
 }

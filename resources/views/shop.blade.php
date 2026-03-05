@@ -23,7 +23,7 @@
         <section class="shop-main container d-flex pt-4 pt-xl-5">
             <div class="shop-sidebar side-sticky bg-body" id="shopFilter">
                 <div class="aside-header d-flex d-lg-none align-items-center">
-                    <h3 class="text-uppercase fs-6 mb-0">Filter By</h3>
+                    <h3 class="text-uppercase fs-6 mb-0"> Фільтри</h3>
                     <button class="btn-close-lg js-close-aside btn-close-aside ms-auto"></button>
                 </div>
 
@@ -35,7 +35,7 @@
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-1" aria-expanded="true"
                                 aria-controls="accordion-filter-1">
-                                Product Categories
+                              Категорії
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -75,7 +75,7 @@
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-2" aria-expanded="true"
                                 aria-controls="accordion-filter-2">
-                                Color
+                               Колір
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -113,7 +113,7 @@
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-size" aria-expanded="true"
                                 aria-controls="accordion-filter-size">
-                                Sizes
+                               Розміри
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -152,7 +152,7 @@
                             <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button"
                                 data-bs-toggle="collapse" data-bs-target="#accordion-filter-brand" aria-expanded="true"
                                 aria-controls="accordion-filter-brand">
-                                Brands
+                                Бренди
                                 <svg class="accordion-button__icon type2" viewBox="0 0 10 6"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g aria-hidden="true" stroke="none" fill-rule="evenodd">
@@ -185,43 +185,7 @@
                                         class="search-field__input form-control form-control-sm border-light border-2"
                                         placeholder="Search" />
                                 </div>
-                                <ul class="multi-select__list list-unstyled">
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Adidas</span>
-                                        <span class="text-secondary">2</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Balmain</span>
-                                        <span class="text-secondary">7</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Balenciaga</span>
-                                        <span class="text-secondary">10</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Burberry</span>
-                                        <span class="text-secondary">39</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Kenzo</span>
-                                        <span class="text-secondary">95</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Givenchy</span>
-                                        <span class="text-secondary">1092</span>
-                                    </li>
-                                    <li
-                                        class="search-suggestion__item multi-select__item text-primary js-search-select js-multi-select">
-                                        <span class="me-auto">Zara</span>
-                                        <span class="text-secondary">48</span>
-                                    </li>
-                                </ul>
+                             
                             </div>
                         </div>
                     </div>

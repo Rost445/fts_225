@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Intervention\Image\Laravel\Facades\Image;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Coupon;
 use App\Models\Order;
@@ -817,5 +818,12 @@ class AdminController extends Controller
 
     return redirect()->route('admin.slides')
       ->with('success', 'Слайд успішно видалено.');
+  }
+
+  public function contact()
+  {
+    $header_title = "Контакти";
+    $contacts = Contact::orderBy('created_at', 'DESC')->paginate(10);
+    return view('admin.contacts', compact('header_title', 'contacts'));
   }
  }

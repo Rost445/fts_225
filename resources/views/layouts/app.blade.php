@@ -330,7 +330,7 @@
                             <a href="about.html" class="navigation__link">Про компанію</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link">Контакти</a>
+                            <a href="{{ route('home.contact') }}" class="navigation__link">Контакти</a>
                         </li>
                     </ul>
                 </div>
@@ -413,7 +413,7 @@
                             <a href="about.html" class="navigation__link">Про компанію</a>
                         </li>
                         <li class="navigation__item">
-                            <a href="contact.html" class="navigation__link">Контакти</a>
+                            <a href="{{ route('home.contact') }}" class="navigation__link">Контакти</a>
                         </li>
                     </ul>
                 </nav>
@@ -590,8 +590,7 @@
                         </li>
                         <li class="sub-menu__item"><a href="blog_list1.html"
                                 class="menu-link menu-link_us-s">Blog</a></li>
-                        <li class="sub-menu__item"><a href="contact-2.html" class="menu-link menu-link_us-s">Contact
-                                Us</a></li>
+                        <li class="sub-menu__item"><a href="{{ route('home.contact') }}" class="menu-link menu-link_us-s">Контакти</a></li>
                     </ul>
                 </div>
 

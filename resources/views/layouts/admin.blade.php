@@ -159,6 +159,21 @@
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><i class="icon-mail"></i></div>
+                                        <div class="text"> Повідомлення</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                      
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.contact') }}" class="">
+                                                <div class="text">Повідомлення</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
 
                                 <li class="menu-item">
                                     <a href="users.html" class="">

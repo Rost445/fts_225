@@ -1,0 +1,111 @@
+@extends('layouts.admin')
+@section('content')
+    <style>
+        table th,
+        table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+
+    <div class="main-content-inner">
+        <div class="main-content-wrap">
+            <div class="flex items-center flex-wrap justify-between gap20 mb-27">
+                <h3>{{ $header_title }}</h3>
+                <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                    <li>
+                        <a href="{{ route('admin.index') }}">
+                            <div class="text-tiny">Адмін-панель</div>
+                        </a>
+                    </li>
+                    <li>
+                        <i class="icon-chevron-right"></i>
+                    </li>
+                    <li>
+                        <div class="text-tiny">{{ $header_title }}</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="wg-box">
+              
+                <div class="wg-table table-all-user">
+                    <div class="table-responsive">
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show fs-3" role="alert">
+                                <div class="p-3">{{ session('success') }}</div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ім'я</th>
+                                    <th>Електронна пошта</th>
+                                    <th>Телефон</th>
+                                    <th>Повідомлення</th>
+                                    <th>Дата</th>
+                                    <th>Дія</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($contacts as $contact)
+                                    <tr>
+                                        <td>{{ $contact->id }}</td>
+                                        <td>{{ $contact->name }}</td>
+                                        <td>{{ $contact->email }}</td>
+                                        <td>{{ $contact->phone }}</td>
+                                        <td>{{ $contact->comment }}</td>
+                                        <td>{{ $contact->created_at }}</td>
+                                        <td class="text-center">
+                                            <div class="list-icon-function">
+                                           <form action="{{ route('admin.contact.delete', ['id' => $contact->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="item text-danger delete">
+                                                    <i class="icon-trash-2"></i>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                    {{ $contacts->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        $(function() {
+            $('.delete').on('click', function(e) {
+                e.preventDefault();
+
+                let form = $(this).closest('form');
+
+                swal({
+                    title: "Ви впевнені?",
+                    text: "Цю дію не можна буде скасувати!",
+                    icon: "warning",
+                    buttons: ["Скасувати", "Видалити"],
+                    dangerMode: true,
+                }).then(function(willDelete) {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

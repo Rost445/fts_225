@@ -822,8 +822,17 @@ class AdminController extends Controller
 
   public function contact()
   {
-    $header_title = "Контакти";
+    $header_title = "Повідомлення від користувачів";
     $contacts = Contact::orderBy('created_at', 'DESC')->paginate(10);
     return view('admin.contacts', compact('header_title', 'contacts'));
+  }
+
+  public function contact_delete($id)
+  {
+    $contact = Contact::find($id);
+    $contact->delete();
+
+    return redirect()->route('admin.contact')
+      ->with('success', 'Повідомлення від користувачів успішно видалено.');
   }
  }

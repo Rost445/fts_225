@@ -40,11 +40,14 @@ Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('home.contact');
 Route::post('/contact-us', [HomeController::class, 'contact_store'])->name('home.contact.store');
 
+Route::get('/search', [HomeController::class, 'search'])->name('home.search');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
     Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/account-order/{order_id}/details', [UserController::class, 'order_details'])->name('user.order.details');
     Route::put('/account-order/cancel', [UserController::class, 'order_cancel'])->name('user.order.cancel');
+
 
     });
 
@@ -89,4 +92,6 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::put('/admin/slide/update', [AdminController::class, 'update_slide'])->name('admin.slide.update');
     Route::delete('/admin/slide/delete/{id}', [AdminController::class, 'delete_slide'])->name('admin.slide.delete');
     Route::get('/admin/contact', [AdminController::class, 'contact'])->name('admin.contact');
+    
+    Route::delete('/admin/contact/{id}/delete', [AdminController::class, 'contact_delete'])->name('admin.contact.delete');
 });

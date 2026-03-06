@@ -835,4 +835,13 @@ class AdminController extends Controller
     return redirect()->route('admin.contact')
       ->with('success', 'Повідомлення від користувачів успішно видалено.');
   }
+
+  public function search(Request $request)
+  {
+    $query = $request->input('query');
+    $results = Product::where('name', 'LIKE', "%{$query}%")
+    ->take(8)
+    ->get();
+    return response()->json($results);
+  }
  }

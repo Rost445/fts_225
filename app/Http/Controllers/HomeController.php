@@ -66,9 +66,8 @@ class HomeController extends Controller
     $query = $request->input('query');
 
     $results = Product::where('name', 'LIKE', "%{$query}%")
-        ->orWhere('description', 'LIKE', "%{$query}%")
-        ->take(8)
-        ->get();
+    ->take(8)
+    ->get();
 
     return response()->json($results);
 }

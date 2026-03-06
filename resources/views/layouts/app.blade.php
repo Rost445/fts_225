@@ -739,7 +739,7 @@ $(function () {
                 data: {
                     query: searchQuery
                 },
-
+ dataType : 'json',
                 success: function (data) {
 
                     $('#box-content-search').html('');

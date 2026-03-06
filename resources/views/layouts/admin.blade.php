@@ -41,6 +41,7 @@
                             <i class="icon-menu-left"></i>
                         </div>
                     </div>
+
                     <div class="center">
                         <div class="center-item">
                             <div class="center-heading">Головна</div>
@@ -165,7 +166,7 @@
                                         <div class="text"> Повідомлення</div>
                                     </a>
                                     <ul class="sub-menu">
-                                      
+
                                         <li class="sub-menu-item">
                                             <a href="{{ route('admin.contact') }}" class="">
                                                 <div class="text">Повідомлення</div>
@@ -197,7 +198,7 @@
 
                                             <div class="text">Вихід</div>
                                         </a>
-                                        </form>
+                                    </form>
 
                                 </li>
                             </ul>
@@ -218,6 +219,21 @@
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
                                 </div>
+                                <form class="form-search flex-grow">
+                                    <fieldset class="name">
+                                        <input type="text" placeholder="Search here..." class="show-search"
+                                            name="name" id="search-input" tabindex="2" value=""
+                                            aria-required="true" required="">
+                                    </fieldset>
+                                    <div class="button-submit">
+                                        <button class="" type="submit"><i class="icon-search"></i></button>
+                                    </div>
+                                    <div class="box-content-search">
+                                        <ul id="box-content-search">
+
+                                        </ul>
+                                    </div>
+                                </form>
 
                             </div>
                             <div class="header-grid">
@@ -345,15 +361,15 @@
                                                     id="logout-form-dropdown">
                                                     @csrf
                                                 </form>
-                                                 <a href="{{ route('logout') }}" class="user-item"
-                                                        onclick="event.preventDefault();document.getElementById('logout-form-dropdown').submit();">
-                                                        <div class="icon">
-                                                            <i class="icon-log-out"></i>
-                                                        </div>
-                                                        <div class="body-title-2">Вихід</div>
-                                                    </a>
+                                                <a href="{{ route('logout') }}" class="user-item"
+                                                    onclick="event.preventDefault();document.getElementById('logout-form-dropdown').submit();">
+                                                    <div class="icon">
+                                                        <i class="icon-log-out"></i>
+                                                    </div>
+                                                    <div class="body-title-2">Вихід</div>
+                                                </a>
 
-                                              
+
 
 
                                             </li>
@@ -387,7 +403,74 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/apexcharts/apexcharts.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    
+    <script>
+        $(function() {
+
+            $('#search-input').on('keyup', function() {
+
+                var searchQuery = $(this).val();
+
+                if (searchQuery.length > 2) {
+
+                    $.ajax({
+                        url: "{{ route('admin.search') }}",
+                        method: "GET",
+                        data: {
+                            query: searchQuery
+                        },
+                        dataType: 'json',
+
+                        success: function(data) {
+
+                            $('#box-content-search').html('');
+
+                            $.each(data, function(index, item) {
+
+                                var url =
+                                    "{{ route('admin.product.edit', ['id' => 'product_id']) }}";
+                                var link = url.replace('product_id', item.id);
+
+
+                                $('#box-content-search').append(`
+                        <li>
+                            <ul>
+                                <li class="product-item gap14 mb-10">
+                                    
+                                    <div class="image no-bg">
+                                        <img src="{{ asset('uploads/products/thumbnails') }}/${item.image}" alt="${item.name}">
+                                    </div>
+
+                                    <div class="flex items-center justify-between gap20 flex-grow">
+                                        <div class="name">
+                                            <a href="${link}" class="body-text">${item.name}</a>
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                                <li class="mb-10">
+                                    <div class="divider"></div>
+                                </li>
+
+                            </ul>
+                        </li>
+                        `);
+
+                            });
+
+                        }
+
+                    });
+
+                } else {
+                    $('#box-content-search').html('');
+                }
+
+            });
+
+        });
+    </script>
+
     @stack('scripts')
 </body>
 
